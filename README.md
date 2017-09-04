@@ -8,6 +8,8 @@ a button component to implement PayPal&#39;s Express Checkout in React
 
 To use PayPal's Express Checkout you must have a PayPal Business account set up and verified. After this is done, you'll have access to your API credentials to use with this button.
 
+Once you have your account set up you will have 2 different sets of credentials for sandbox mode and prouduction mode. Both will have a clientID, this is what you will use for the productionID prop or the sandboxID prop.
+
 ## Installation
 
 ```sh
