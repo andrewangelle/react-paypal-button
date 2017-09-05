@@ -2,7 +2,7 @@
 
 <img src='paypalImage.png' width="200px" />
 
-a button component to implement PayPal&#39;s Express Checkout in React
+A button component to implement PayPal&#39;s Express Checkout in React
 
 ## Prerequisites
 
