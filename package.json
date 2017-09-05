@@ -51,5 +51,8 @@
     "style-loader": "^0.13.1",
     "webpack": "^2.2.0",
     "webpack-dev-server": "^2.2.0"
+  },
+  "dependencies": {
+    "paypal-checkout": "^4.0.121"
   }
 }

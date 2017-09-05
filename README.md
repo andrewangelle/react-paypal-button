@@ -29,7 +29,7 @@ export default class App extends Component {
       <PayPalButton>
         env='production'
         productionID='abcdef123456'
-        amount='0.01'
+        amount={0.01}
         currency='USD'
         commit={true}
       />
@@ -57,12 +57,24 @@ export default class App extends Component {
   }
 }
 ```
+
+## Options
+
+| option      | type  | description                              |
+|--------------|-------|-------------------------------------------|
+|`env`         | string|declares the environment. Will either be set to 'production' for live or 'sandbox' for testing|
+|`sandboxID`    |string| this will be your clientID from your PayPal Sandbox API credentials found in your PayPal Business account info|
+|`productionID`|string| this will be your clientID from your PayPal Live API credentials found in your PayPal Business account info|
+|`amount`      |integer| The amount of the transaction |
+|`currency`     |string | The currency of the transaction. See PayPal docs for list of accepted currencies. |
+|`commit`       |bool | If set to true then the PayPal checkout flow will display a 'Pay Now' button at the end of transaction.   |
+
 ## Development
 
 Install dependencies:
 
 ```
-$ npm install react-paypal-button
+$ npm install
 ```
 
 Run the example app at [http://localhost:8080](http://localhost:8080):
