@@ -62,12 +62,12 @@ export default class App extends Component {
 
 | option      | type  | description                              |
 |--------------|-------|-------------------------------------------|
-|`env`         | string|declares the environment. Will either be set to 'production' for live or 'sandbox' for testing|
-|`sandboxID`    |string| this will be your clientID from your PayPal Sandbox API credentials found in your PayPal Business account info|
-|`productionID`|string| this will be your clientID from your PayPal Live API credentials found in your PayPal Business account info|
-|`amount`      |integer| The amount of the transaction |
+|`env`         | string|Declares the environment. Will either be set to 'production' for live or 'sandbox' for testing.|
+|`sandboxID`    |string| This will be your clientID from your PayPal Sandbox API credentials found in your PayPal Business account info.|
+|`productionID`|string| This will be your clientID from your PayPal Live API credentials found in your PayPal Business account info.|
+|`amount`      |integer| The amount of the transaction. |
 |`currency`     |string | The currency of the transaction. See PayPal docs for list of accepted currencies. |
-|`commit`       |bool | If set to true then the PayPal checkout flow will display a 'Pay Now' button at the end of transaction.   |
+|`commit`       |bool | If set to true then the PayPal checkout flow will display a 'Pay Now' button at the end of transaction. There's no real reason to set it to false.   |
 
 ## Development
 
