@@ -42,6 +42,7 @@ export default class PayPalButton extends React.Component {
         client={ this.state.client }
         payment={ (data, actions) => this.payment(data, actions) }
         onAuthorize={ (data, actions) => this.onAuthorize(data, actions) }
+        {...this.props}
       />
     );
   }

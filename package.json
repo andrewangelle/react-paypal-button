@@ -7,7 +7,7 @@
   "email": "andrewangelle@gmail.com",
   "main": "lib/paypalButton.min.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --config example/webpack.config.build.js",
     "start": "webpack-dev-server --config example/webpack.config.js",
     "test": "jest --watchAll",
     "test:once": "jest",
