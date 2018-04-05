@@ -12,7 +12,6 @@
     "test": "jest --watchAll",
     "test:once": "jest",
     "lint": "eslint src test",
-    "postinstall": "npm run build",
     "preversion": "npm run build && git add -A lib"
   },
   "jest": {
