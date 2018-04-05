@@ -8,6 +8,7 @@ const Button = paypal.Button.driver('react', { React, ReactDOM });
 export default class PayPalButton extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       env: this.props.env,
       client: {
@@ -35,6 +36,7 @@ export default class PayPalButton extends React.Component {
   }
 
   render() {
+    const Button = paypal.Button.driver('react', { React, ReactDOM });
     return (
       <Button
         commit={ this.state.commit }
