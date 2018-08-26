@@ -26,7 +26,7 @@ import PayPalButton from 'react-paypal-button'
 export default class App extends Component {
   render(){
     return (
-      <PayPalButton>
+      <PayPalButton
         env='production'
         productionID='abcdef123456'
         amount={0.01}
@@ -46,7 +46,7 @@ import PayPalButton from 'react-paypal-button'
 export default class App extends Component {
   render(){
     return (
-      <PayPalButton>
+      <PayPalButton
         env='sandbox'
         sandboxID='abcdef123456'
         amount='0.01'
