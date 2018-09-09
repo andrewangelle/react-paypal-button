@@ -1,6 +1,6 @@
 {
   "name": "react-paypal-button",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "a button component to implement PayPal&#39;s Express Checkout in React",
   "author": "andrewangelle",
   "repository": "http://github.com/andrewangelle/react-paypal-button.git",
