@@ -21,7 +21,7 @@ $ npm install react-paypal-button --save
 When using button in Production mode, usage will look like this...
 
 ```javascript
-import PayPalButton from 'react-paypal-button'
+import { PayPalButton } from 'react-paypal-button'
 
 export default class App extends Component {
   render(){
@@ -31,7 +31,6 @@ export default class App extends Component {
         productionID='abcdef123456'
         amount={0.01}
         currency='USD'
-        commit={true}
       />
     )
   }
@@ -41,7 +40,7 @@ export default class App extends Component {
 When testing in Sandbox mode, usage will look like this...
 
 ```javascript
-import PayPalButton from 'react-paypal-button'
+import { PayPalButton } from 'react-paypal-button'
 
 export default class App extends Component {
   render(){
@@ -51,7 +50,6 @@ export default class App extends Component {
         sandboxID='abcdef123456'
         amount='0.01'
         currency='USD'
-        commit={true}
       />
     )
   }
@@ -67,7 +65,6 @@ export default class App extends Component {
 |`productionID`|string| This will be your clientID from your PayPal Live API credentials found in your PayPal Business account info.|
 |`amount`      |integer| The amount of the transaction. |
 |`currency`     |string | The currency of the transaction. See PayPal docs for list of accepted currencies. |
-|`commit`       |bool | If set to true then the PayPal checkout flow will display a 'Pay Now' button at the end of transaction. There's no real reason to set it to false.   |
 
 ## Development
 
