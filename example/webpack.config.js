@@ -1,49 +1,82 @@
+require('babel-polyfill')
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const libraryName = 'reactGlide';
 
 module.exports = {
-  devtool: 'cheap-module-source-map',
-  entry: {
-    app: path.join(__dirname, './index.js')
-  },
+  entry: path.join(__dirname),
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'example.[hash].js'
+    publicPath: '/'
   },
-  devServer: {
-    hot: true,
-    stats: {
-      colors: true,
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: 'styles',
+          test: /\.css$/,
+          chunks: 'all',
+          enforce: true
+        }
+      }
     },
-    historyApiFallback: true
+    minimizer: [
+      new UglifyJsPlugin({
+        exclude: /\.html/,
+        parallel: true,
+        sourceMap: true
+      }),
+      new OptimizeCSSAssetsPlugin({})
+    ]
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'index.html'),
-      filename: 'index.html'
-    }),
-  ],
   module: {
     rules: [
       {
-        test: /(\.jsx|\.js)$/,
-        use: 'babel-loader',
-        include: [
-          path.resolve(__dirname),
-          path.resolve(__dirname, '../src')
-        ],
-        exclude: /node_modules/
+        test: /^(?!.*test\.tsx|\.ts?$).*\.tsx|\.ts?$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
       },
       {
-        test: /\.css$/,
+        test: /\.css/,
+        exclude: /node_modules/,
         use: [
-          'style-loader?sourceMap',
-          'css-loader?sourceMap&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
+          'style-loader',
+          'css-loader',
         ]
       },
+      {
+        test: /^(?!.*test\.tsx|\.ts?$).*\.tsx|\.ts?$/,
+        exclude: /node_modules/,
+        use: ["source-map-loader"],
+        enforce: "pre"
+      },
     ]
-  }
+  },
+  resolve: {
+    extensions: ['.js', '.tsx', '.css', '.ts', '.jsx'],
+  },
+  devServer: {
+    contentBase: 'dist',
+    port: 3000,
+    open: true,
+    host: 'localhost',
+    hot: true
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({
+      template: 'example/index.html',
+      filename: 'index.html'
+    }),
+    new MiniCssExtractPlugin({
+      entry: 'src/index.css',
+      filename: libraryName + '.css',
+      chunkFilename: libraryName + '.[id].css'
+    }),
+
+  ]
 };

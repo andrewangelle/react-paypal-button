@@ -1,34 +1,46 @@
 const path = require('path');
 const webpack = require('webpack');
-const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-
-const libraryName = 'paypalButton';
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const libraryName = 'reactPaypalButton';
 
 module.exports = {
-  entry: path.join(__dirname, 'src/index.js'),
+  entry: path.join(__dirname, 'src'),
   output: {
     path: path.join(__dirname, 'lib'),
-    filename: libraryName + '.min.js',
     library: libraryName,
-    libraryTarget: 'umd',
-    umdNamedDefine: true
+    filename: libraryName + '.js',
+    libraryTarget: "umd",
+    umdNamedDefine: true,
+    publicPath: '/'
   },
-  externals: {
-    react: 'react'
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        include: /\.js/,
+        parallel: true,
+        sourceMap: true
+      }),
+    ]
   },
   module: {
     rules: [
       {
-        test: /(\.jsx|\.js)$/,
-        use: 'babel-loader',
-        exclude: /node_modules/
+        test: /^(?!.*test\.tsx|\.ts?$).*\.tsx|\.ts?$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
       },
       {
-        test: /(\.jsx|\.js)$/,
-        use: 'eslint-loader',
-        exclude: /node_modules/
-      }
+        test: /^(?!.*test\.tsx|\.ts?$).*\.tsx|\.ts?$/,
+        exclude: /node_modules/,
+        use: ["source-map-loader"],
+        enforce: "pre"
+      },
     ]
   },
-  plugins: [new UglifyJsPlugin({ minimize: true })]
+  resolve: {
+    extensions: ['.js', '.tsx', '.css', '.ts', '.jsx'],
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+  ]
 };
