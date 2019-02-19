@@ -17,7 +17,8 @@
     "test": "jest --watchAll",
     "test:once": "jest",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "preversion": "npm run build && git add -A lib"
+    "preversion": "npm run build && git add -A lib",
+    "preinstall": "rm -rf dist"
   },
   "keywords": [
     "react",
