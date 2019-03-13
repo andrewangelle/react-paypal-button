@@ -14,7 +14,7 @@ class Example extends Component<{}, {}> {
         <PayPalButton
           env='sandbox'
           amount={1.00}
-          sandboxID={process.env.PAYPAL_CLIENT_ID} // or clientID
+          sandboxID={process.env.PAYPAL_CLIENT_ID}
           currency='USD'
         />
       </div>

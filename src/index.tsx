@@ -5,8 +5,9 @@ import paypal from 'paypal-checkout';
 
 const Button = paypal.Button.driver('react', { React, ReactDOM });
 
+export type EnvString = 'sandbox' | 'production'
 export interface PayPalButtonProps {
-  env: string;
+  env: EnvString;
   sandboxID?: string;
   productionID?: string;
   amount: number;
@@ -30,11 +31,19 @@ class PayPalButton extends React.Component<PayPalButtonProps, {}> {
           }
         }
       ]
-    });
+    })
+      .then(res => {
+        console.log({ payment: res })
+        return res
+      });
   }
 
   onAuthorize(data: any, actions: any) {
-    return actions.payment.execute();
+    console.log({ authData: data })
+    return actions.payment.execute().then(res => {
+      console.log(res);
+      return res
+    });
   }
 
   render() {
