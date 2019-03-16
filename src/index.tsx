@@ -1,27 +1,43 @@
 import '@babel/polyfill'
 import React from 'react';
-import ReactDOM from 'react-dom';
 import paypal from 'paypal-checkout';
+import ReactDOM from 'react-dom';
 
 const Button = paypal.Button.driver('react', { React, ReactDOM });
 
+/** Types */
+export type Obj = { [key: string]: string | number | boolean | any[] }
 export type EnvString = 'sandbox' | 'production'
+export type IntentString = 'sale' | 'purchase';
+export type StateString = 'approved' | 'declined';
+export interface PaymentObject {
+  cart: string;
+  create_time: string;
+  id: string;
+  intent: IntentString;
+  payer: Obj;
+  state: StateString;
+
+}
 export interface PayPalButtonProps {
   env: EnvString;
   sandboxID?: string;
   productionID?: string;
   amount: number;
   currency: string;
+  onSuccess?: (response: PaymentObject) => void;
 }
 
-class PayPalButton extends React.Component<PayPalButtonProps, {}> {
-  client: any;
 
-  async componentDidMount() {
-    this.client = await paypal
+/** Component */
+class PayPalButton extends React.Component<PayPalButtonProps> {
+  constructor(props: PayPalButtonProps) {
+    super(props)
+    this.onAuthorize = this.onAuthorize.bind(this);
+    this.payment = this.payment.bind(this);
   }
 
-  payment(data: any, actions: any) {
+  payment(data: any, actions: any): void {
     return actions.payment.create({
       transactions: [
         {
@@ -31,19 +47,14 @@ class PayPalButton extends React.Component<PayPalButtonProps, {}> {
           }
         }
       ]
-    })
-      .then(res => {
-        console.log({ payment: res })
-        return res
-      });
+    });
   }
 
-  onAuthorize(data: any, actions: any) {
-    console.log({ authData: data })
-    return actions.payment.execute().then(res => {
-      console.log(res);
-      return res
-    });
+  onAuthorize(data: PaymentObject, actions: any): void {
+    if (this.props.onSuccess) {
+      this.props.onSuccess(data)
+    }
+    return actions.payment.execute()
   }
 
   render() {
@@ -55,8 +66,8 @@ class PayPalButton extends React.Component<PayPalButtonProps, {}> {
           sandbox: this.props.sandboxID,
           production: this.props.productionID
         }}
-        payment={(data: any, actions: any) => this.payment(data, actions)}
-        onAuthorize={(data: any, actions: any) => this.onAuthorize(data, actions)}
+        payment={this.payment}
+        onAuthorize={this.onAuthorize}
         amount={this.props.amount}
       />
     );

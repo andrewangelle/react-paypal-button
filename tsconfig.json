@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "outDir": "dist",
+    "outDir": "lib/types",
     "module": "esnext",
     "target": "es2015",
     "lib": [
@@ -24,18 +24,17 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "src": [
+      "*": [
         "src/*"
       ]
     }
   },
   "exclude": [
-    "dist",
+    "lib",
     "example",
-    "src/tests/*"
+    "src/tests"
   ],
   "include": [
-    "example",
-    "src/index.tsx"
+    "src"
   ]
 }

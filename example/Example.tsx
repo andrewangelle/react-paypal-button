@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PayPalButton } from '../src/index';
+import { PayPalButton } from '../src/PayPalButton';
 
 class Example extends Component<{}, {}> {
   render() {
