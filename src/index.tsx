@@ -7,43 +7,34 @@ const Button = paypal.Button.driver('react', { React, ReactDOM });
 
 /** Types */
 export type EnvString = 'sandbox' | 'production'
-export type IntentString = 'sale' | 'purchase';
-export type StateString = 'approved' | 'declined';
-export type PayerStatus = 'UNVERIFIED' | 'VERIFIED';
-export type PaymentMethod = 'paypal' | 'credit' | 'debit';
 
-export interface ShippingAddress {
-  city: string;
-  country_code: string;
-  line1: string;
-  postal_code: string
-  recipient_name: string;
-  state: string;
-}
-export interface PayerInfo {
-  country_code: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  middle_name: string;
-  payer_id: string;
-  shipping_address: ShippingAddress;
-}
-
-export interface Payer {
-  payer_info: PayerInfo;
-  payment_method: PaymentMethod;
-  status: PayerStatus;
-}
-
-export interface PaymentObject {
+type PaymentObject = {
   cart: string;
   create_time: string;
   id: string;
-  intent: IntentString;
-  payer: Payer;
-  state: StateString;
-  transactions: any[];
+  intent: 'sale' | 'purchase';
+  payer: {
+    payer_info: {
+      country_code: string;
+      email: string;
+      first_name: string;
+      last_name: string;
+      middle_name: string;
+      payer_id: string;
+      shipping_address: {
+        city: string;
+        country_code: string;
+        line1: string;
+        postal_code: string
+        recipient_name: string;
+        state: string;
+      }
+    };
+    payment_method: string;
+    status: 'UNVERIFIED' | 'VERIFIED';
+  };
+  state: string;
+  transaction: any[];
 }
 
 export interface PayPalButtonProps {
@@ -62,6 +53,11 @@ class PayPalButton extends React.Component<PayPalButtonProps> {
     super(props)
     this.onAuthorize = this.onAuthorize.bind(this);
     this.payment = this.payment.bind(this);
+  }
+
+  async componentDidMount() {
+    // attempt to wait until paypal lib is loaded
+    await paypal
   }
 
   payment(data, actions): void {

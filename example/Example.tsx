@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PayPalButton, PaymentObject } from '../src';
+import { PayPalButton } from '../src';
 
 class Example extends Component<{}, {}> {
   render() {
@@ -12,11 +12,11 @@ class Example extends Component<{}, {}> {
       <div style={buttonStyles as any}>
         <h3>Try me out</h3>
         <PayPalButton
-          env='sandbox'
+          env="sandbox"
           amount={1.00}
-          sandboxID='AWi1Yk1c7jzFlcNifMMiTAUHu7zEZelJodUVYfArCE3GxhprdwAbXZREQLzeKGPmPgI2pL6UUGWshiRB'
-          currency='USD'
-          onSuccess={(res: PaymentObject) =>
+          sandboxID={process.env.paypalSandboxOrProductionId} // <- replace with an actual id
+          currency="USD"
+          onSuccess={(res) =>
             console.log({ paymentData: res })
           }
         />
