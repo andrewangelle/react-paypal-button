@@ -8,7 +8,7 @@ const Button = paypal.Button.driver('react', { React, ReactDOM });
 /** Types */
 export type EnvString = 'sandbox' | 'production'
 
-type PaymentObject = {
+export type PaymentObject = {
   cart: string;
   create_time: string;
   id: string;
