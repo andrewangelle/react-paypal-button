@@ -14,11 +14,11 @@ class Example extends Component<{}, {}> {
         <PayPalButton
           env="sandbox"
           amount={1.00}
-          sandboxID={process.env.paypalSandboxOrProductionId} // <- replace with an actual id
+          sandboxID="12345" // <- replace with an actual id
           currency="USD"
-          onSuccess={(res) =>
-            console.log({ paymentData: res })
-          }
+          onPaymentStart={() => console.log('payment started')}
+          onPaymentSuccess={(res) => console.log('payment complete', { paymentData: res })}
+          onPaymentError={(msg: string) => console.log(msg)}
         />
       </div>
     );

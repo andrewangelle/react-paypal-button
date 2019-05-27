@@ -58,6 +58,20 @@ export default class App extends Component {
 
 ## Options
 
+### Types
+```typescript
+export type PayPalButtonProps = {
+  env: 'sandbox' | 'production';
+  sandboxID?: string;
+  productionID?: string;
+  amount: number;
+  currency: string;
+  onPaymentError?: (msg: string) => void;
+  onPaymentStart?: () => void;
+  onPaymentSuccess?: (response: PayPalPaymentData) => void;
+}
+```
+
 | option      | type  | description                              |
 |--------------|-------|-------------------------------------------|
 |`env`         | string|Declares the environment. Will either be set to 'production' for live or 'sandbox' for testing.|
@@ -65,7 +79,9 @@ export default class App extends Component {
 |`productionID`|string| This will be your clientID from your PayPal Live API credentials found in your PayPal Business account info.|
 |`amount`      |integer| The amount of the transaction. |
 |`currency`     |string | The currency of the transaction. See PayPal docs for list of accepted currencies. |
-|`onSuccess`     |fn | a callback function that runs after a successful payment and includes the payment object from paypal as its argument. |
+|`onPaymentStart`     |fn | a callback function that runs when the user clicks on the checkout button as the modal loads. |
+|`onPaymentSuccess`     |fn | a callback function that runs after a successful payment and includes the payment object from paypal as its argument. |
+|`onPaymentError`     |fn | a callback function that runs if the payment execution or authorization process errors out, and includes the error message as its argument |
 ## Development
 
 Install dependencies:
@@ -74,7 +90,7 @@ Install dependencies:
 $ npm install
 ```
 
-Run the example app at [http://localhost:8080](http://localhost:8080):
+Run the example app at [http://localhost:8008](http://localhost:8008):
 
 ```
 $ npm start

@@ -60,7 +60,7 @@ module.exports = {
   },
   devServer: {
     contentBase: 'dist',
-    port: 3000,
+    port: 8008,
     open: true,
     host: 'localhost',
     hot: true

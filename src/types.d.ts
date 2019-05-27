@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type EnvString = 'sandbox' | 'production'
 
 export type PayPalPaymentData = {
@@ -29,12 +31,14 @@ export type PayPalPaymentData = {
   transaction: any[];
 }
 
-export interface PayPalButtonProps {
-  env: EnvString;
+export type PayPalButtonProps = {
+  env: 'sandbox' | 'production';
   sandboxID?: string;
   productionID?: string;
   amount: number;
   currency: string;
-  onSuccess?: (response: PaymentObject) => void;
+  onPaymentError?: (msg: string) => void;
+  onPaymentStart?: () => void;
+  onPaymentSuccess?: (response: PayPalPaymentData) => void;
 }
 

@@ -6,15 +6,20 @@ import { PayPalButtonProps, PayPalPaymentData } from './types';
 
 const Button = paypal.Button.driver('react', { React, ReactDOM });
 
+interface State {
+  loaded: boolean;
+  error: boolean;
+}
 
-class PayPalButton extends React.Component<PayPalButtonProps, {loaded: boolean}> {
+class PayPalButton extends React.Component<PayPalButtonProps, State> {
   constructor(props: PayPalButtonProps) {
     super(props)
     this.onAuthorize = this.onAuthorize.bind(this);
     this.payment = this.payment.bind(this);
 
     this.state= {
-      loaded: false
+      loaded: false,
+      error: false
     }
   }
 
@@ -25,7 +30,15 @@ class PayPalButton extends React.Component<PayPalButtonProps, {loaded: boolean}>
     }
   }
 
+  componentDidCatch() {
+    this.setState({error: true})
+  }
+
   payment(data, actions): void {
+    if(this.props.onPaymentStart){
+      this.props.onPaymentStart();
+    }
+
     return actions.payment.create({
       transactions: [
         {
@@ -35,20 +48,31 @@ class PayPalButton extends React.Component<PayPalButtonProps, {loaded: boolean}>
           }
         }
       ]
-    });
+    })
+    .catch(() => this.setState({error: true}));
   }
 
   onAuthorize(data, actions): void {
     return actions.payment.execute()
       .then((res: PayPalPaymentData) => {
-        if (this.props.onSuccess) {
-          this.props.onSuccess(res)
+        if (this.props.onPaymentSuccess) {
+          this.props.onPaymentSuccess(res)
+        }
+      })
+      .catch((e: any) => {
+        if(this.props.onPaymentError){
+          this.props.onPaymentError(e.message)
+        } else {
+          console.log(e.message)
         }
       })
   }
 
   render() {
-    return this.state.loaded && (
+    if(this.state.error){
+      return null
+    }
+    return this.state.loaded && !this.state.error && (
       <Button
         commit={true}
         env={this.props.env}
@@ -64,4 +88,4 @@ class PayPalButton extends React.Component<PayPalButtonProps, {loaded: boolean}>
   }
 }
 
-export { PayPalButton }
+export { PayPalButton, PayPalButtonProps, PayPalPaymentData }
