@@ -7,7 +7,7 @@
   "repository": "http://github.com/andrewangelle/react-paypal-button.git",
   "license": "MIT",
   "main": "lib/index.js",
-  "types": "lib/types/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "rm -rf lib && npm run build:types && npm run build:js",
     "build:types": "tsc --emitDeclarationOnly",
@@ -17,7 +17,8 @@
     "test": "npx jest --watchAll",
     "test:once": "jest",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "preinstall": "rm -rf dist"
+    "preversion": "npm run build && git add -A lib",
+    "postversion": "git push && git push --tags && rm -rf dist"
   },
   "keywords": [
     "react",

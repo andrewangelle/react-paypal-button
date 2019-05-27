@@ -1,6 +1,6 @@
 export type EnvString = 'sandbox' | 'production'
 
-export type PaymentObject = {
+export type PayPalPaymentData = {
   cart: string;
   create_time: string;
   id: string;
@@ -37,3 +37,4 @@ export interface PayPalButtonProps {
   currency: string;
   onSuccess?: (response: PaymentObject) => void;
 }
+

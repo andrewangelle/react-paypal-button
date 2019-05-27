@@ -1,8 +1,11 @@
 import '@babel/polyfill'
 import React from 'react';
+import ReactDOM from 'react-dom';
+import paypal from 'paypal-checkout';
+import { PayPalButtonProps, PayPalPaymentData } from './types';
 
-import { Button } from './Button'
-import { PayPalButtonProps, PaymentObject } from 'types';
+const Button = paypal.Button.driver('react', { React, ReactDOM });
+
 
 class PayPalButton extends React.Component<PayPalButtonProps, {loaded: boolean}> {
   constructor(props: PayPalButtonProps) {
@@ -37,7 +40,7 @@ class PayPalButton extends React.Component<PayPalButtonProps, {loaded: boolean}>
 
   onAuthorize(data, actions): void {
     return actions.payment.execute()
-      .then((res: PaymentObject) => {
+      .then((res: PayPalPaymentData) => {
         if (this.props.onSuccess) {
           this.props.onSuccess(res)
         }
