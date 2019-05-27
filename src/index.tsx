@@ -31,6 +31,7 @@ class PayPalButton extends React.Component<PayPalButtonProps, State> {
   }
 
   componentDidCatch() {
+    console.log('catch')
     this.setState({error: true})
   }
 
@@ -48,8 +49,10 @@ class PayPalButton extends React.Component<PayPalButtonProps, State> {
           }
         }
       ]
+    }).catch((e: any) => {
+      console.warn({message: 'Error Loading  React Paypal Button, check your environment variables'})
+      this.setState({error: true})
     })
-    .catch(() => this.setState({error: true}));
   }
 
   onAuthorize(data, actions): void {
