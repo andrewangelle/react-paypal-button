@@ -65,7 +65,7 @@ export default class App extends Component {
 |`productionID`|string| This will be your clientID from your PayPal Live API credentials found in your PayPal Business account info.|
 |`amount`      |integer| The amount of the transaction. |
 |`currency`     |string | The currency of the transaction. See PayPal docs for list of accepted currencies. |
-
+|`onSuccess`     |fn | a callback function that runs after a successful payment and includes the payment object from paypal as its argument. |
 ## Development
 
 Install dependencies:
