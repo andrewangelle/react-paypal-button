@@ -94,7 +94,7 @@
       "allow-null-check"
     ],
     "typedef": [
-      true,
+      false,
       "parameter",
       "property-declaration"
     ],

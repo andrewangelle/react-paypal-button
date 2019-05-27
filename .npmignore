@@ -1,1 +1,9 @@
 src
+example
+.env
+jest.config.js
+paypalImage.png
+webpack.config.js
+tsconfig.json
+tsconfig.test.json
+tslint.json

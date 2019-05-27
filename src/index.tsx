@@ -2,25 +2,30 @@ import '@babel/polyfill'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import paypal from 'paypal-checkout';
+import { PayPalButtonProps, PayPalPaymentData } from './types';
 
 const Button = paypal.Button.driver('react', { React, ReactDOM });
 
-export interface PayPalButtonProps {
-  env: string;
-  sandboxID?: string;
-  productionID?: string;
-  amount: number;
-  currency: string;
-}
 
-class PayPalButton extends React.Component<PayPalButtonProps, {}> {
-  client: any;
+class PayPalButton extends React.Component<PayPalButtonProps, {loaded: boolean}> {
+  constructor(props: PayPalButtonProps) {
+    super(props)
+    this.onAuthorize = this.onAuthorize.bind(this);
+    this.payment = this.payment.bind(this);
 
-  async componentDidMount() {
-    this.client = await paypal
+    this.state= {
+      loaded: false
+    }
   }
 
-  payment(data: any, actions: any) {
+  async componentDidMount() {
+    const paypalLoaded = !!(window as any).__pptmLoadedWithNoContent
+    if(paypalLoaded){
+      this.setState({loaded: true})
+    }
+  }
+
+  payment(data, actions): void {
     return actions.payment.create({
       transactions: [
         {
@@ -33,12 +38,17 @@ class PayPalButton extends React.Component<PayPalButtonProps, {}> {
     });
   }
 
-  onAuthorize(data: any, actions: any) {
-    return actions.payment.execute();
+  onAuthorize(data, actions): void {
+    return actions.payment.execute()
+      .then((res: PayPalPaymentData) => {
+        if (this.props.onSuccess) {
+          this.props.onSuccess(res)
+        }
+      })
   }
 
   render() {
-    return (
+    return this.state.loaded && (
       <Button
         commit={true}
         env={this.props.env}
@@ -46,8 +56,8 @@ class PayPalButton extends React.Component<PayPalButtonProps, {}> {
           sandbox: this.props.sandboxID,
           production: this.props.productionID
         }}
-        payment={(data: any, actions: any) => this.payment(data, actions)}
-        onAuthorize={(data: any, actions: any) => this.onAuthorize(data, actions)}
+        payment={this.payment}
+        onAuthorize={this.onAuthorize}
         amount={this.props.amount}
       />
     );

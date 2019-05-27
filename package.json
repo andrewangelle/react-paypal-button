@@ -9,15 +9,16 @@
   "main": "lib/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist lib && npm run build:types && npm run build:js",
+    "build": "rm -rf lib && npm run build:types && npm run build:js",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "babel src --out-dir lib --extensions \".tsx\" --ignore \"**/*.test.tsx\" --source-maps inline",
     "build:bundle": "webpack-cli --config ./webpack.config.js --mode production",
     "start": "webpack-dev-server --config ./example/webpack.config.js --mode development --open --hot",
-    "test": "jest --watchAll",
+    "test": "npx jest --watchAll",
     "test:once": "jest",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "preinstall": "rm -rf dist"
+    "preversion": "npm run build && git add -A lib",
+    "postversion": "git push && git push --tags && rm -rf dist"
   },
   "keywords": [
     "react",
@@ -72,6 +73,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
+    "babel-polyfill": "^6.26.0",
     "paypal-checkout": "^4.0.217"
   }
 }

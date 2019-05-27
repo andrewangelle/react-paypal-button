@@ -24,18 +24,17 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "src": [
+      "*": [
         "src/*"
       ]
     }
   },
   "exclude": [
-    "dist",
+    "lib",
     "example",
-    "src/tests/*"
+    "src/tests"
   ],
   "include": [
-    "example",
-    "src/index.tsx"
+    "src"
   ]
 }

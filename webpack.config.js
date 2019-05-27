@@ -78,7 +78,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       entry: 'src/index.css',
       filename: libraryName + '.css',
-      chunkFilename: libraryName + '.[id].css'
+      chunkFilename: libraryName + '.module.css'
     }),
 
   ]
