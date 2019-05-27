@@ -2,16 +2,61 @@ import '@babel/polyfill'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import paypal from 'paypal-checkout';
-import { PayPalButtonProps, PayPalPaymentData } from './types';
 
 const Button = paypal.Button.driver('react', { React, ReactDOM });
 
+/**
+ * types
+ */
 interface State {
   loaded: boolean;
   error: boolean;
 }
 
-class PayPalButton extends React.Component<PayPalButtonProps, State> {
+export type PayPalPaymentData = {
+  cart: string;
+  create_time: string;
+  id: string;
+  intent: 'sale' | 'purchase';
+  payer: {
+    payer_info: {
+      country_code: string;
+      email: string;
+      first_name: string;
+      last_name: string;
+      middle_name: string;
+      payer_id: string;
+      shipping_address: {
+        city: string;
+        country_code: string;
+        line1: string;
+        postal_code: string
+        recipient_name: string;
+        state: string;
+      }
+    };
+    payment_method: string;
+    status: 'UNVERIFIED' | 'VERIFIED';
+  };
+  state: string;
+  transaction: any[];
+}
+
+export type PayPalButtonProps = {
+  env: 'sandbox' | 'production';
+  sandboxID?: string;
+  productionID?: string;
+  amount: number;
+  currency: string;
+  onPaymentError?: (msg: string) => void;
+  onPaymentStart?: () => void;
+  onPaymentSuccess?: (response: PayPalPaymentData) => void;
+}
+
+/**
+ * component
+ */
+export class PayPalButton extends React.Component<PayPalButtonProps, State> {
   constructor(props: PayPalButtonProps) {
     super(props)
     this.onAuthorize = this.onAuthorize.bind(this);
@@ -90,5 +135,3 @@ class PayPalButton extends React.Component<PayPalButtonProps, State> {
     );
   }
 }
-
-export { PayPalButton, PayPalButtonProps, PayPalPaymentData }
