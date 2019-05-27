@@ -14,7 +14,8 @@ class Example extends Component<{}, {}> {
         <PayPalButton
           env="sandbox"
           amount={1.00}
-          sandboxID={process.env.paypalSandboxOrProductionId} // <- replace with an actual id
+// tslint:disable-next-line: max-line-length
+          sandboxID="AWi1Yk1c7jzFlcNifMMiTAUHu7zEZelJodUVYfArCE3GxhprdwAbXZREQLzeKGPmPgI2pL6UUGWshiRB" //   {process.env.paypalSandboxOrProductionId} // <- replace with an actual id
           currency="USD"
           onSuccess={(res) =>
             console.log({ paymentData: res })

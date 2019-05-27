@@ -1,7 +1,7 @@
 module.exports = {
   preset: 'ts-jest',
   collectCoverageFrom: [
-    "src/**/*.{js,jsx,ts,tsx}"
+    "src/**/*.{tsx}"
   ],
   transform: {
     '^.+\\.tsx?$': 'babel-jest',
