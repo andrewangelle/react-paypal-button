@@ -50,6 +50,17 @@ export default class App extends Component {
         sandboxID='abcdef123456'
         amount='0.01'
         currency='USD'
+        onPaymentStart={() => console.log('payment started')}
+        onPaymentSuccess={(res) => console.log('payment complete', res)}
+        onPaymentError={(msg) => console.log('payment error', msg)}
+        onShippingChange={(data) => {
+          console.log('onShippingChange', data)
+          const shippingAmount = 1.00
+          // run code to calculate and update your shipping charges
+          // this callback will also work as an async funciton
+          // must return a number
+          return shippingAmount
+        }}
       />
     )
   }
@@ -69,6 +80,7 @@ export type PayPalButtonProps = {
   onPaymentError?: (msg: string) => void;
   onPaymentStart?: () => void;
   onPaymentSuccess?: (response: PayPalPaymentData) => void;
+  onShippingChange?: (data: OnShippingChangeData) => Promise<string> | string;
 }
 ```
 
@@ -82,6 +94,7 @@ export type PayPalButtonProps = {
 |`onPaymentStart`     |fn | a callback function that runs when the user clicks on the checkout button as the modal loads. |
 |`onPaymentSuccess`     |fn | a callback function that runs after a successful payment and includes the payment object from paypal as its argument. |
 |`onPaymentError`     |fn | a callback function that runs if the payment execution or authorization process errors out, and includes the error message as its argument |
+|`onShippingChange`     |fn | a callback function that runs before payment execution with the user's default shipping address. It Also runs when/if the user updates their shipping address during the interaction. If this prop is defined on the component you must return a number as a string that represents the shipping amount to be added to the order total|
 ## Development
 
 Install dependencies:
@@ -94,18 +107,6 @@ Run the example app at [http://localhost:8008](http://localhost:8008):
 
 ```
 $ npm start
-```
-
-Run tests and watch for code changes using [jest](https://github.com/facebook/jest):
-
-```
-$ npm test
-```
-
-Lint `src` and `test` files:
-
-```
-$ npm run lint
 ```
 
 Generate UMD output in the `lib` folder (runs implicitly on `npm version`):

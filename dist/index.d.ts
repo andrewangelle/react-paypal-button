@@ -7,6 +7,22 @@ interface State {
     loaded: boolean;
     error: boolean;
 }
+export declare type OnShippingChangeData = {
+    amount: {
+        value: string;
+        currency_code: string;
+        breakdown: {};
+    };
+    orderID: string;
+    paymentID: string;
+    paymentToken: string;
+    shipping_address: {
+        city: string;
+        country_code: string;
+        postal_code: string;
+        state: string;
+    };
+};
 export declare type PayPalPaymentData = {
     cart: string;
     create_time: string;
@@ -44,6 +60,7 @@ export declare type PayPalButtonProps = {
     onPaymentError?: (msg: string) => void;
     onPaymentStart?: () => void;
     onPaymentSuccess?: (response: PayPalPaymentData) => void;
+    onShippingChange?: (data: OnShippingChangeData) => Promise<number> | number;
 };
 /**
  * component
@@ -54,6 +71,7 @@ export declare class PayPalButton extends React.Component<PayPalButtonProps, Sta
     componentDidCatch(): void;
     payment(data: any, actions: any): void;
     onAuthorize(data: any, actions: any): void;
+    onShippingChange(data: OnShippingChangeData, actions: any): void;
     render(): false | JSX.Element | null;
 }
 export {};

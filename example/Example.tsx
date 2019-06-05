@@ -14,11 +14,19 @@ class Example extends Component<{}, {}> {
         <PayPalButton
           env="sandbox"
           amount={1.00}
-          sandboxID="12345" // <- replace with an actual id
+// tslint:disable-next-line: max-line-length
+          sandboxID="AWRtWwqJDhoCtUatTvQDdGLyknKIXhaIozn0IrZxAY8d2hkyaLWn_hCydMBjvwRPiHiVIAwkSuv9DQaJ" // <- replace with an actual id
           currency="USD"
           onPaymentStart={() => console.log('payment started')}
-          onPaymentSuccess={(res) => console.log('payment complete', { paymentData: res })}
-          onPaymentError={(msg: string) => console.log(msg)}
+          onPaymentSuccess={(res) => console.log('payment complete', res)}
+          onPaymentError={(msg: string) => console.log('payment error', msg)}
+          onShippingChange={(data) => {
+            console.log('onShippingChange', data)
+            if(data.shipping_address.state === 'OH'){
+              return 2.00
+            }
+            return 1.00
+          }}
         />
       </div>
     );

@@ -13,6 +13,23 @@ interface State {
   error: boolean;
 }
 
+export type OnShippingChangeData = {
+  amount: {
+    value: string,
+    currency_code: string,
+    breakdown: {}
+  },
+  orderID: string;
+  paymentID: string;
+  paymentToken: string;
+  shipping_address: {
+    city: string;
+    country_code: string;
+    postal_code: string;
+    state: string;
+  }
+}
+
 export type PayPalPaymentData = {
   cart: string;
   create_time: string;
@@ -51,6 +68,7 @@ export type PayPalButtonProps = {
   onPaymentError?: (msg: string) => void;
   onPaymentStart?: () => void;
   onPaymentSuccess?: (response: PayPalPaymentData) => void;
+  onShippingChange?: (data: OnShippingChangeData) => Promise<number> | number;
 }
 
 /**
@@ -59,13 +77,14 @@ export type PayPalButtonProps = {
 export class PayPalButton extends React.Component<PayPalButtonProps, State> {
   constructor(props: PayPalButtonProps) {
     super(props)
-    this.onAuthorize = this.onAuthorize.bind(this);
-    this.payment = this.payment.bind(this);
-
     this.state= {
       loaded: false,
       error: false
     }
+
+    this.onAuthorize = this.onAuthorize.bind(this);
+    this.payment = this.payment.bind(this);
+    this.onShippingChange = this.onShippingChange.bind(this);
   }
 
   async componentDidMount() {
@@ -76,7 +95,6 @@ export class PayPalButton extends React.Component<PayPalButtonProps, State> {
   }
 
   componentDidCatch() {
-    console.log('catch')
     this.setState({error: true})
   }
 
@@ -90,7 +108,7 @@ export class PayPalButton extends React.Component<PayPalButtonProps, State> {
         {
           amount: {
             total: this.props.amount,
-            currency: this.props.currency
+            currency: this.props.currency,
           }
         }
       ]
@@ -111,26 +129,64 @@ export class PayPalButton extends React.Component<PayPalButtonProps, State> {
         if(this.props.onPaymentError){
           this.props.onPaymentError(e.message)
         } else {
-          console.log(e.message)
+          console.warn({paypalOnAuthError: e.message})
         }
       })
   }
 
+  onShippingChange(data: OnShippingChangeData, actions): void {
+    const { onShippingChange, amount } = this.props;
+
+    if(onShippingChange){
+      Promise.resolve(onShippingChange(data))
+      .then((shippingCharge) => {
+        console.log(
+          amount,
+          shippingCharge,
+          (amount + shippingCharge).toFixed(2),
+        )
+        return actions.order.patch([{
+          op: 'replace',
+          path: '/purchase_units/@reference_id==\'default\'/amount',
+          value: {
+            currency_code: 'USD',
+            value: (amount + shippingCharge).toFixed(2),
+            breakdown: {
+              item_total: {
+                currency_code: 'USD',
+                value: amount
+              },
+              shipping: {
+                currency_code: 'USD',
+                value: shippingCharge
+              }
+            }
+          }
+        }])
+      });
+    } else {
+      actions.resolve()
+    }
+  }
+
   render() {
-    if(this.state.error){
+    const { error, loaded } = this.state;
+    const { env, sandboxID, productionID,  amount } = this.props;
+    if(error){
       return null
     }
-    return this.state.loaded && !this.state.error && (
+    return loaded && !error && (
       <Button
         commit={true}
-        env={this.props.env}
+        env={env}
+        amount={amount}
         client={{
-          sandbox: this.props.sandboxID,
-          production: this.props.productionID
+          sandbox: sandboxID,
+          production: productionID
         }}
         payment={this.payment}
         onAuthorize={this.onAuthorize}
-        amount={this.props.amount}
+        onShippingChange={this.onShippingChange}
       />
     );
   }
