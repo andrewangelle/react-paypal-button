@@ -18,27 +18,6 @@ $ npm install react-paypal-button --save
 
 ## Usage
 
-When using button in Production mode, usage will look like this...
-
-```javascript
-import { PayPalButton } from 'react-paypal-button'
-
-export default class App extends Component {
-  render(){
-    return (
-      <PayPalButton
-        env='production'
-        productionID='abcdef123456'
-        amount={0.01}
-        currency='USD'
-      />
-    )
-  }
-}
-```
-
-When testing in Sandbox mode, usage will look like this...
-
 ```javascript
 import { PayPalButton } from 'react-paypal-button'
 
@@ -66,7 +45,22 @@ export default class App extends Component {
   }
 }
 ```
+When using button in Production mode, update the follow props ..
 
+```javascript
+import { PayPalButton } from 'react-paypal-button'
+
+export default class App extends Component {
+  render(){
+    return (
+      <PayPalButton
+        env='production'
+        productionID='abcdef123456'
+      />
+    )
+  }
+}
+```
 ## Options
 
 ### Types
