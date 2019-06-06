@@ -34,11 +34,10 @@ export default class App extends Component {
         onPaymentError={(msg) => console.log('payment error', msg)}
         onShippingChange={(data) => {
           console.log('onShippingChange', data)
-          const shippingAmount = 1.00
           // run code to calculate and update your shipping charges
-          // this callback will also work as an async funciton
-          // must return a number
-          return shippingAmount
+          // this callback will also work as an async function
+          // you can optionally return a number representing the new shipping amount
+          return 1.00
         }}
       />
     )
@@ -88,7 +87,8 @@ export type PayPalButtonProps = {
 |`onPaymentStart`     |fn | a callback function that runs when the user clicks on the checkout button as the modal loads. |
 |`onPaymentSuccess`     |fn | a callback function that runs after a successful payment and includes the payment object from paypal as its argument. |
 |`onPaymentError`     |fn | a callback function that runs if the payment execution or authorization process errors out, and includes the error message as its argument |
-|`onShippingChange`     |fn | a callback function that runs before payment execution with the user's default shipping address. It Also runs when/if the user updates their shipping address during the interaction. If this prop is defined on the component you must return a number as a string that represents the shipping amount to be added to the order total|
+|`onPaymentCancel`     |fn | a callback function that runs if the user cancels the checkout process or exits the modal |
+|`onShippingChange`     |fn | a callback function that runs before payment execution with the user's default shipping address. It also runs when/if the user updates their shipping address during the interaction. You can optionally return a number representing the new shipping amount to be added to the order total|
 ## Development
 
 Install dependencies:

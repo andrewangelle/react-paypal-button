@@ -7,6 +7,13 @@ interface State {
     loaded: boolean;
     error: boolean;
 }
+export declare type OnCancelData = {
+    billingID: string;
+    cancelUrl: string;
+    intent: string;
+    paymentID: string;
+    paymentToken: string;
+};
 export declare type OnShippingChangeData = {
     amount: {
         value: string;
@@ -51,16 +58,18 @@ export declare type PayPalPaymentData = {
     state: string;
     transaction: any[];
 };
+declare type OnShippingChangeReturnType = Promise<number | void> | number | void;
 export declare type PayPalButtonProps = {
     env: 'sandbox' | 'production';
     sandboxID?: string;
     productionID?: string;
     amount: number;
     currency: string;
-    onPaymentError?: (msg: string) => void;
     onPaymentStart?: () => void;
     onPaymentSuccess?: (response: PayPalPaymentData) => void;
-    onShippingChange?: (data: OnShippingChangeData) => Promise<number> | number;
+    onPaymentError?: (msg: string) => void;
+    onPaymentCancel?: (data: OnCancelData) => void;
+    onShippingChange?: (data: OnShippingChangeData) => OnShippingChangeReturnType;
 };
 /**
  * component
@@ -72,6 +81,7 @@ export declare class PayPalButton extends React.Component<PayPalButtonProps, Sta
     payment(data: any, actions: any): void;
     onAuthorize(data: any, actions: any): void;
     onShippingChange(data: OnShippingChangeData, actions: any): void;
+    onCancel(data: OnCancelData): void;
     render(): false | JSX.Element | null;
 }
 export {};

@@ -13,6 +13,14 @@ interface State {
   error: boolean;
 }
 
+export type OnCancelData = {
+  billingID: string;
+  cancelUrl: string;
+  intent: string;
+  paymentID: string;
+  paymentToken: string;
+}
+
 export type OnShippingChangeData = {
   amount: {
     value: string,
@@ -59,16 +67,20 @@ export type PayPalPaymentData = {
   transaction: any[];
 }
 
+
+type OnShippingChangeReturnType = Promise<number | void> | number | void;
+
 export type PayPalButtonProps = {
   env: 'sandbox' | 'production';
   sandboxID?: string;
   productionID?: string;
   amount: number;
   currency: string;
-  onPaymentError?: (msg: string) => void;
   onPaymentStart?: () => void;
   onPaymentSuccess?: (response: PayPalPaymentData) => void;
-  onShippingChange?: (data: OnShippingChangeData) => Promise<number> | number;
+  onPaymentError?: (msg: string) => void;
+  onPaymentCancel?: (data: OnCancelData) => void;
+  onShippingChange?: (data: OnShippingChangeData) => OnShippingChangeReturnType;
 }
 
 /**
@@ -77,14 +89,14 @@ export type PayPalButtonProps = {
 export class PayPalButton extends React.Component<PayPalButtonProps, State> {
   constructor(props: PayPalButtonProps) {
     super(props)
-    this.state= {
+    this.state = {
       loaded: false,
       error: false
     }
-
     this.onAuthorize = this.onAuthorize.bind(this);
     this.payment = this.payment.bind(this);
     this.onShippingChange = this.onShippingChange.bind(this);
+    this.onCancel = this.onCancel.bind(this);
   }
 
   async componentDidMount() {
@@ -113,7 +125,7 @@ export class PayPalButton extends React.Component<PayPalButtonProps, State> {
         }
       ]
     }).catch((e: any) => {
-      console.warn({message: 'Error Loading  React Paypal Button, check your environment variables'})
+      console.error({message: 'Error Loading React Paypal Button, check your environment variables'})
       this.setState({error: true})
     })
   }
@@ -134,38 +146,51 @@ export class PayPalButton extends React.Component<PayPalButtonProps, State> {
       })
   }
 
-  onShippingChange(data: OnShippingChangeData, actions): void {
-    const { onShippingChange, amount } = this.props;
 
-    if(onShippingChange){
-      Promise.resolve(onShippingChange(data))
-      .then((shippingCharge) => {
-        console.log(
-          amount,
-          shippingCharge,
-          (amount + shippingCharge).toFixed(2),
-        )
-        return actions.order.patch([{
-          op: 'replace',
-          path: '/purchase_units/@reference_id==\'default\'/amount',
-          value: {
-            currency_code: 'USD',
-            value: (amount + shippingCharge).toFixed(2),
-            breakdown: {
-              item_total: {
-                currency_code: 'USD',
-                value: amount
-              },
-              shipping: {
-                currency_code: 'USD',
-                value: shippingCharge
+  onShippingChange(data: OnShippingChangeData, actions): void {
+    if(this.props.onShippingChange){
+     Promise.resolve(this.props.onShippingChange(data))
+      .then((rate) => {
+
+        // early exit if user doesn't return a value
+        if(!rate){
+          return actions.resolve()
+        }
+
+        const baseOrderAmount = `${this.props.amount}`
+        const shippingAmount = `${rate}`;
+        const value = (parseFloat(baseOrderAmount) + parseFloat(shippingAmount)).toFixed(2);
+        const currency_code = this.props.currency
+
+        return actions.order.patch([
+          {
+            op: 'replace',
+            path: '/purchase_units/@reference_id==\'default\'/amount',
+            value: {
+              currency_code,
+              value,
+              breakdown: {
+                item_total: {
+                  currency_code,
+                  value: baseOrderAmount
+                },
+                shipping: {
+                  currency_code,
+                  value: shippingAmount
+                }
               }
             }
           }
-        }])
+        ]);
       });
     } else {
-      actions.resolve()
+      return actions.resolve()
+    }
+  }
+
+  onCancel(data: OnCancelData){
+    if(this.props.onPaymentCancel){
+      this.props.onPaymentCancel(data)
     }
   }
 
@@ -187,6 +212,7 @@ export class PayPalButton extends React.Component<PayPalButtonProps, State> {
         payment={this.payment}
         onAuthorize={this.onAuthorize}
         onShippingChange={this.onShippingChange}
+        onCancel={this.onCancel}
       />
     );
   }
