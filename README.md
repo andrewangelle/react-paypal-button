@@ -70,9 +70,10 @@ export type PayPalButtonProps = {
   productionID?: string;
   amount: number;
   currency: string;
-  onPaymentError?: (msg: string) => void;
   onPaymentStart?: () => void;
   onPaymentSuccess?: (response: PayPalPaymentData) => void;
+  onPaymentError?: (msg: string) => void;
+  onPaymentCancel?: (data: OnCancelData) => void;
   onShippingChange?: (data: OnShippingChangeData) => Promise<string> | string;
 }
 ```
