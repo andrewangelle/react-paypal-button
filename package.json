@@ -73,7 +73,6 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "babel-polyfill": "^6.26.0",
-    "paypal-checkout": "^4.0.274"
+    "babel-polyfill": "^6.26.0"
   }
 }
