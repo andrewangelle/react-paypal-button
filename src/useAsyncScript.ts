@@ -1,23 +1,20 @@
 import { useState, useEffect } from 'react';
 
-export function useAsyncScript(url: string){
-  let cache: string[] = [];
+export default function useAsyncScript(url: string) {
+  let scriptCache: string[] = [];
 
-  const [state, setState] = useState({
-    loading: true,
-    done: false,
-    error: false
-  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [done, setDone] = useState(false);
+
 
   useEffect(() => {
-    if(cache.includes(url)){
-      setState({
-        loading: false,
-        done: true,
-        error: false
-      })
+    if(scriptCache.includes(url)){
+        setLoading(false)
+        setDone(true),
+        setError(false)
     } else {
-      cache.push(url)
+      scriptCache.push(url)
     }
 
     let script = document.createElement('script')
@@ -25,29 +22,24 @@ export function useAsyncScript(url: string){
     script.async = true;
 
     const onScriptLoad = () => {
-      setState({
-        loading: false,
-        done: true,
-        error: false
-      })
+      setLoading(false)
+      setDone(true),
+      setError(false)
     }
 
     const onScriptError = () => {
-      const index = cache.indexOf(url);
-      if(index !== -1){
-        cache.splice(index, 1);
+      const urlIndex = scriptCache.indexOf(url);
+      if(urlIndex !== -1){
+        scriptCache.splice(urlIndex, 1);
         script.remove()
       }
-      setState({
-        loading: false,
-        done: true,
-        error: true
-      })
+      setLoading(false)
+      setDone(true),
+      setError(true)
     }
 
     script.addEventListener('load', onScriptLoad);
     script.addEventListener('error', onScriptError);
-
     document.body.appendChild(script)
 
     return () => {
@@ -56,5 +48,5 @@ export function useAsyncScript(url: string){
     }
   }, [url]);
 
-  return state
+  return {loading, error, done}
 }

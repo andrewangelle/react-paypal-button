@@ -1,10 +1,11 @@
 import React from 'react';
+import { PayPalButton } from '../src';
+
 import {
-  PayPalButton,
   OnCancelData,
   OnShippingChangeData,
   PayPalPaymentData
-} from '../src';
+} from '../src/types'
 
 export function Example() {
   const buttonStyles = {
@@ -26,6 +27,7 @@ export function Example() {
         onPaymentError={(msg: string) => console.log('payment error', msg)}
         onPaymentCancel={(data: OnCancelData) => console.log(data)}
         onShippingChange={(data: OnShippingChangeData) => console.log('onShippingChange', data)}
+        onApprove={(id: string) => console.log('onApprove', id)}
       />
     </div>
   );
