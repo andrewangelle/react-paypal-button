@@ -1,17 +1,12 @@
 import '@babel/polyfill'
-import React from 'react';
+import React, { useCallback } from 'react';
 import ReactDOM from 'react-dom';
-import paypal from 'paypal-checkout';
+import { useAsyncScript } from './useAsyncScript';
 
-const Button = paypal.Button.driver('react', { React, ReactDOM });
 
 /**
  * types
  */
-interface State {
-  loaded: boolean;
-  error: boolean;
-}
 
 export type OnCancelData = {
   billingID: string;
@@ -86,70 +81,59 @@ export type PayPalButtonProps = {
 /**
  * component
  */
-export class PayPalButton extends React.Component<PayPalButtonProps, State> {
-  constructor(props: PayPalButtonProps) {
-    super(props)
-    this.state = {
-      loaded: false,
-      error: false
-    }
-    this.onAuthorize = this.onAuthorize.bind(this);
-    this.payment = this.payment.bind(this);
-    this.onShippingChange = this.onShippingChange.bind(this);
-    this.onCancel = this.onCancel.bind(this);
-  }
 
-  async componentDidMount() {
-    const paypalLoaded = !!(window as any).__pptmLoadedWithNoContent
-    if(paypalLoaded){
-      this.setState({loaded: true})
-    }
-  }
+import { PayPalButtonProps, PayPalPaymentData, OnShippingChangeData, OnCancelData } from '.';
 
-  componentDidCatch() {
-    this.setState({error: true})
-  }
 
-  payment(data, actions): void {
-    if(this.props.onPaymentStart){
-      this.props.onPaymentStart();
-    }
+export function PayPalButton(props: PayPalButtonProps){
+  const url = `https://www.paypal.com/sdk/js?client-id=${props.sandboxID || props.productionID}`;
+  const {loading, done} = useAsyncScript(url)
 
+  const createOrder = useCallback((data: any, actions: any) => {
+    return actions.order.create({
+      purchase_units: [{
+        amount: {
+          value: props.amount
+        }
+      }]
+    })
+  }, []);
+
+  const payment = useCallback((data: any, actions: any) => {
     return actions.payment.create({
       transactions: [
         {
           amount: {
-            total: this.props.amount,
-            currency: this.props.currency,
+            total: props.amount,
+            currency: props.currency,
           }
         }
       ]
-    }).catch((e: any) => {
-      console.error({message: 'Error Loading React Paypal Button, check your environment variables'})
-      this.setState({error: true})
     })
-  }
+  }, []);
 
-  onAuthorize(data, actions): void {
+  const onAuthorize = useCallback((data: any, actions: any) => {
     return actions.payment.execute()
       .then((res: PayPalPaymentData) => {
-        if (this.props.onPaymentSuccess) {
-          this.props.onPaymentSuccess(res)
+        if (props.onPaymentSuccess) {
+          props.onPaymentSuccess(res)
         }
       })
       .catch((e: any) => {
-        if(this.props.onPaymentError){
-          this.props.onPaymentError(e.message)
+        if(props.onPaymentError){
+          props.onPaymentError(e.message)
         } else {
           console.warn({paypalOnAuthError: e.message})
         }
       })
-  }
+  }, []);
 
 
-  onShippingChange(data: OnShippingChangeData, actions): void {
-    if(this.props.onShippingChange){
-     Promise.resolve(this.props.onShippingChange(data))
+
+
+  const onShippingChange = useCallback((data: OnShippingChangeData, actions) => {
+    if(props.onShippingChange){
+      Promise.resolve(props.onShippingChange(data))
       .then((rate) => {
 
         // early exit if user doesn't return a value
@@ -157,10 +141,10 @@ export class PayPalButton extends React.Component<PayPalButtonProps, State> {
           return actions.resolve()
         }
 
-        const baseOrderAmount = `${this.props.amount}`
+        const baseOrderAmount = `${props.amount}`
         const shippingAmount = `${rate}`;
         const value = (parseFloat(baseOrderAmount) + parseFloat(shippingAmount)).toFixed(2);
-        const currency_code = this.props.currency
+        const currency_code = props.currency
 
         return actions.order.patch([
           {
@@ -186,34 +170,38 @@ export class PayPalButton extends React.Component<PayPalButtonProps, State> {
     } else {
       return actions.resolve()
     }
-  }
+  }, []);
 
-  onCancel(data: OnCancelData){
-    if(this.props.onPaymentCancel){
-      this.props.onPaymentCancel(data)
+  const onCancel = useCallback((data: OnCancelData) => {
+    if(props.onPaymentCancel){
+      props.onPaymentCancel(data)
     }
-  }
+  }, []);
 
-  render() {
-    const { error, loaded } = this.state;
-    const { env, sandboxID, productionID,  amount } = this.props;
-    if(error){
-      return null
-    }
-    return loaded && !error && (
-      <Button
-        commit={true}
-        env={env}
-        amount={amount}
-        client={{
-          sandbox: sandboxID,
-          production: productionID
-        }}
-        payment={this.payment}
-        onAuthorize={this.onAuthorize}
-        onShippingChange={this.onShippingChange}
-        onCancel={this.onCancel}
-      />
-    );
+
+  if((window === undefined) || (window as any).paypal === undefined){
+    return null
   }
+  const Button = (window as any).paypal.Buttons.driver('react', {React, ReactDOM});
+
+  return (
+    <>
+      {done && !loading &&
+        <Button
+          env={props.env}
+          amount={props.amount}
+          client={{
+            sandbox: props.sandboxID,
+            production: props.productionID
+          }}
+          payment={payment}
+          onAuthorize={onAuthorize}
+          onShippingChange={onShippingChange}
+          onCancel={onCancel}
+          createOrder={createOrder}
+        />
+      }
+    </>
+
+  )
 }
