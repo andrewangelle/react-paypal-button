@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "outDir": "dist",
+    "outDir": "bin/types",
     "module": "esnext",
     "target": "es2015",
     "lib": [
@@ -35,6 +35,6 @@
     "src/tests"
   ],
   "include": [
-    "src"
+    "src/"
   ]
 }

@@ -1,12 +1,29 @@
 import { useCallback } from 'react';
-import { PayPalButtonProps, PayPalPaymentData, OnShippingChangeData, OnCancelData } from 'types';
+import { PayPalButtonProps, PayPalPaymentData, OnShippingChangeData, OnCancelData } from './types';
 
-export default function usePaypalMethods (props: PayPalButtonProps){
-  const onApprove = useCallback((data: any, actions: any) => {
+function usePaypalMethods (props: PayPalButtonProps){
+  const onApprove = useCallback((
+    data: PayPalPaymentData,
+    actions: any
+  ) => {
+    // if props.intent is capture then
+    //   return actions.payment.execute()
+    //     .then((res: PayPalPaymentData) => {
+    //       if (props.onPaymentSuccess) {
+    //         props.onPaymentSuccess(res)
+    //       }
+    //     })
+    //     .catch((e: any) => {
+    //       if(props.onPaymentError){
+    //         props.onPaymentError(e.message)
+    //       } else {
+    //         console.warn({paypalOnAuthError: e.message})
+    //       }
+    //     })
     actions.order.authorize().then(auth => {
       const id = auth.purchase_units[0].payments.authorizations[0].id;
       if(props.onApprove !== undefined){
-        props.onApprove(id);
+        props.onApprove(data, id);
       }
     })
   }, [])
@@ -36,22 +53,6 @@ export default function usePaypalMethods (props: PayPalButtonProps){
         }
       ]
     })
-  }, []);
-
-  const onAuthorize = useCallback((data: any, actions: any) => {
-    return actions.payment.execute()
-      .then((res: PayPalPaymentData) => {
-        if (props.onPaymentSuccess) {
-          props.onPaymentSuccess(res)
-        }
-      })
-      .catch((e: any) => {
-        if(props.onPaymentError){
-          props.onPaymentError(e.message)
-        } else {
-          console.warn({paypalOnAuthError: e.message})
-        }
-      })
   }, []);
 
   const onShippingChange = useCallback((data: OnShippingChangeData, actions) => {
@@ -103,7 +104,6 @@ export default function usePaypalMethods (props: PayPalButtonProps){
 
   return {
     onApprove,
-    onAuthorize,
     onCancel,
     onShippingChange,
     createOrder,
@@ -111,3 +111,5 @@ export default function usePaypalMethods (props: PayPalButtonProps){
   }
 
 }
+
+export default usePaypalMethods

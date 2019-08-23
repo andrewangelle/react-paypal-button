@@ -1,33 +1,28 @@
 import React from 'react';
 import { PayPalButton } from '../src';
 
-import {
-  OnCancelData,
-  OnShippingChangeData,
-  PayPalPaymentData
-} from '../src/types'
-
 export function Example() {
   const buttonStyles = {
     textAlign: 'center',
-    padding: '1rem',
-    margin: '1rem'
+    padding: '5rem',
+    width: '30%',
+    margin: '5rem auto'
   }
   return (
     <div style={buttonStyles as any}>
       <h3>Try me out</h3>
       <PayPalButton
         env="sandbox"
+        intent="capture"
         amount={1.00}
         // tslint:disable-next-line: max-line-length
         sandboxID="AWRtWwqJDhoCtUatTvQDdGLyknKIXhaIozn0IrZxAY8d2hkyaLWn_hCydMBjvwRPiHiVIAwkSuv9DQaJ" // <- replace with an actual id
         currency="USD"
         onPaymentStart={() => console.log('payment started')}
-        onPaymentSuccess={(res: PayPalPaymentData) => console.log('payment complete', res)}
-        onPaymentError={(msg: string) => console.log('payment error', msg)}
-        onPaymentCancel={(data: OnCancelData) => console.log(data)}
-        onShippingChange={(data: OnShippingChangeData) => console.log('onShippingChange', data)}
-        onApprove={(id: string) => console.log('onApprove', id)}
+        onPaymentError={msg => console.log('payment error', msg)}
+        onPaymentCancel={data => console.log(data)}
+        onShippingChange={data => console.log('onShippingChange', data)}
+        onApprove={(data, authId) => console.log('onApprove', data, authId)}
       />
     </div>
   );

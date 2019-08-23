@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
+import { PayPalButtonProps } from './types';
+import typeGuard from './typeGuard';
+import composeUrl from './composeUrl';
 
-export default function useAsyncScript(url: string) {
+function usePaypalScript(props: PayPalButtonProps) {
   let scriptCache: string[] = [];
+  const apiKey = props.sandboxID || props.productionID
+  const url = composeUrl(typeGuard(apiKey));
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -10,9 +15,9 @@ export default function useAsyncScript(url: string) {
 
   useEffect(() => {
     if(scriptCache.includes(url)){
-        setLoading(false)
-        setDone(true),
-        setError(false)
+      setLoading(false)
+      setDone(true),
+      setError(false)
     } else {
       scriptCache.push(url)
     }
@@ -40,6 +45,7 @@ export default function useAsyncScript(url: string) {
 
     script.addEventListener('load', onScriptLoad);
     script.addEventListener('error', onScriptError);
+
     document.body.appendChild(script)
 
     return () => {
@@ -48,5 +54,7 @@ export default function useAsyncScript(url: string) {
     }
   }, [url]);
 
-  return {loading, error, done}
+  return { loading, error, done }
 }
+
+export default usePaypalScript

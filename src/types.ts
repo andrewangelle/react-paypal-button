@@ -1,3 +1,4 @@
+
 declare global {
   interface Window {
     paypal: any
@@ -59,15 +60,19 @@ export type PayPalPaymentData = {
 }
 
 
-type OnShippingChangeReturnType = Promise<number | void> | number | void;
+type OnShippingChangeReturnType =
+  Promise<number | void> |
+  number |
+  void;
 
-export type PayPalButtonProps = {
+export interface PayPalButtonProps {
   env: 'sandbox' | 'production';
   sandboxID?: string;
   productionID?: string;
   amount: number;
   currency: string;
-  onApprove?: (id: string) => void;
+  intent?: 'capture' | 'authorize';
+  onApprove?: (data: PayPalPaymentData, authId: string) => void;
   onPaymentStart?: () => void;
   onPaymentSuccess?: (response: PayPalPaymentData) => void;
   onPaymentError?: (msg: string) => void;

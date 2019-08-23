@@ -1,4 +1,31 @@
-export declare type EnvString = 'sandbox' | 'production';
+declare global {
+    interface Window {
+        paypal: any;
+    }
+}
+export declare type OnCancelData = {
+    billingID: string;
+    cancelUrl: string;
+    intent: string;
+    paymentID: string;
+    paymentToken: string;
+};
+export declare type OnShippingChangeData = {
+    amount: {
+        value: string;
+        currency_code: string;
+        breakdown: {};
+    };
+    orderID: string;
+    paymentID: string;
+    paymentToken: string;
+    shipping_address: {
+        city: string;
+        country_code: string;
+        postal_code: string;
+        state: string;
+    };
+};
 export declare type PayPalPaymentData = {
     cart: string;
     create_time: string;
@@ -27,13 +54,18 @@ export declare type PayPalPaymentData = {
     state: string;
     transaction: any[];
 };
-export declare type PayPalButtonProps = {
+declare type OnShippingChangeReturnType = Promise<number | void> | number | void;
+export interface PayPalButtonProps {
     env: 'sandbox' | 'production';
     sandboxID?: string;
     productionID?: string;
     amount: number;
     currency: string;
-    onPaymentError?: (msg: string) => void;
+    onApprove?: (id: string) => void;
     onPaymentStart?: () => void;
     onPaymentSuccess?: (response: PayPalPaymentData) => void;
-};
+    onPaymentError?: (msg: string) => void;
+    onPaymentCancel?: (data: OnCancelData) => void;
+    onShippingChange?: (data: OnShippingChangeData) => OnShippingChangeReturnType;
+}
+export {};

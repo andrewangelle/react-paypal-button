@@ -6,7 +6,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const libraryName = 'reactGlide';
 
-module.exports = {
+const config = {
   entry: path.join(__dirname),
   output: {
     path: path.join(__dirname, 'dist'),
@@ -79,3 +79,5 @@ module.exports = {
 
   ]
 };
+
+module.exports = config;
