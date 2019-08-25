@@ -5,8 +5,6 @@ import usePaypalScript from './usePaypalScript';
 import usePaypalMethods from './usePaypalMethods';
 import { PayPalButtonProps } from './types';
 
-
-
 function PayPalButton(props: PayPalButtonProps) {
   const { loading, done } = usePaypalScript(props);
   const methods = usePaypalMethods(props);

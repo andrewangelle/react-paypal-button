@@ -1,6 +1,9 @@
 import React from 'react';
 import { PayPalButton } from '../src';
 
+// tslint:disable-next-line: max-line-length
+const paypalClientId = 'AWRtWwqJDhoCtUatTvQDdGLyknKIXhaIozn0IrZxAY8d2hkyaLWn_hCydMBjvwRPiHiVIAwkSuv9DQaJ';
+
 export function Example() {
   const buttonStyles = {
     textAlign: 'center',
@@ -15,10 +18,10 @@ export function Example() {
         env="sandbox"
         intent="capture"
         amount={1.00}
-        // tslint:disable-next-line: max-line-length
-        sandboxID="AWRtWwqJDhoCtUatTvQDdGLyknKIXhaIozn0IrZxAY8d2hkyaLWn_hCydMBjvwRPiHiVIAwkSuv9DQaJ" // <- replace with an actual id
+        sandboxID={paypalClientId}
         currency="USD"
-        onPaymentStart={() => console.log('payment started')}
+        onPaymentStart={() => console.log('onPaymentStart')}
+        onPaymentSuccess={data => console.log('onPaymentSuccess', data)}
         onPaymentError={msg => console.log('payment error', msg)}
         onPaymentCancel={data => console.log(data)}
         onShippingChange={data => console.log('onShippingChange', data)}

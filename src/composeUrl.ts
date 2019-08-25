@@ -10,7 +10,6 @@ const composeUrl = (options: PaypalOptions) => {
   },'?');
 
   const url = `${baseUrl}${queryParams}`;
-  console.log(url)
   return url;
 }
 

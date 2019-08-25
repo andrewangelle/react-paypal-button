@@ -1,4 +1,5 @@
 export { default as PayPalButton } from './PayPalButton';
+export { default as useExpressCheckout } from './useExpressCheckout';
 export {
   PayPalButtonProps,
   PayPalPaymentData,
@@ -7,4 +8,4 @@ export {
   OnCaptureData,
   OnApproveData
 } from './types'
-export { default as useExpressCheckout } from './useExpressCheckout';
+

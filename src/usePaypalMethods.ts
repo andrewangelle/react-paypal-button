@@ -9,12 +9,22 @@ function usePaypalMethods (props: PayPalButtonProps){
   ) => {
     if(props.intent === 'capture' ) {
       return actions.order.capture()
-         .then((details: OnCaptureData) => {
-           console.log(details)
-           if (props.onPaymentSuccess) {
-             props.onPaymentSuccess(details)
-          }
-       });
+      .then((details: OnCaptureData) => {
+        if (props.onPaymentSuccess) {
+          props.onPaymentSuccess(details)
+        }
+      })
+      .catch(e => {
+        if(props.onPaymentError){
+          props.onPaymentError(e)
+        }
+        console.error(`
+          react-paypal-button capture error.
+          This is an issue with paypal's api and the way their handling their session data.
+          Try closing and reopening your browser
+          Original error message: ${e.message}
+        ` )
+      })
     } else {
       actions.order.authorize()
       .then(auth => {
@@ -22,6 +32,15 @@ function usePaypalMethods (props: PayPalButtonProps){
         if(props.onApprove !== undefined){
           props.onApprove(data as OnApproveData, id);
         }
+      })
+      .catch(e => {
+        if(props.onPaymentError){
+          props.onPaymentError(e)
+        }
+        console.error(`
+          react-paypal-button authorization error
+          Original error message: ${e.message}
+        `)
       })
     }
 

@@ -7,7 +7,7 @@
   "repository": "http://github.com/andrewangelle/react-paypal-button.git",
   "license": "MIT",
   "main": "bin/index.min.js",
-  "types": "bin/types/index.d.ts",
+  "types": "bin/types/types.d.ts",
   "scripts": {
     "build": "rm -rf bin && npm run build:types && npm run prepare",
     "prepare": "webpack --config webpack.config.js",
