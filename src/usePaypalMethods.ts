@@ -1,31 +1,30 @@
 import { useCallback } from 'react';
-import { PayPalButtonProps, PayPalPaymentData, OnShippingChangeData, OnCancelData } from './types';
+import { PayPalButtonProps,  OnShippingChangeData, OnCancelData, OnCaptureData, OnApproveData } from './types';
 
 function usePaypalMethods (props: PayPalButtonProps){
+
   const onApprove = useCallback((
-    data: PayPalPaymentData,
+    data: OnApproveData | OnCaptureData,
     actions: any
   ) => {
-    // if props.intent is capture then
-    //   return actions.payment.execute()
-    //     .then((res: PayPalPaymentData) => {
-    //       if (props.onPaymentSuccess) {
-    //         props.onPaymentSuccess(res)
-    //       }
-    //     })
-    //     .catch((e: any) => {
-    //       if(props.onPaymentError){
-    //         props.onPaymentError(e.message)
-    //       } else {
-    //         console.warn({paypalOnAuthError: e.message})
-    //       }
-    //     })
-    actions.order.authorize().then(auth => {
-      const id = auth.purchase_units[0].payments.authorizations[0].id;
-      if(props.onApprove !== undefined){
-        props.onApprove(data, id);
-      }
-    })
+    if(props.intent === 'capture' ) {
+      return actions.order.capture()
+         .then((details: OnCaptureData) => {
+           console.log(details)
+           if (props.onPaymentSuccess) {
+             props.onPaymentSuccess(details)
+          }
+       });
+    } else {
+      actions.order.authorize()
+      .then(auth => {
+        const id = auth.purchase_units[0].payments.authorizations[0].id;
+        if(props.onApprove !== undefined){
+          props.onApprove(data as OnApproveData, id);
+        }
+      })
+    }
+
   }, [])
 
   const createOrder = useCallback((data: any, actions: any) => {

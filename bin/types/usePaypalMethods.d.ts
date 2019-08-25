@@ -1,7 +1,6 @@
-import { PayPalButtonProps, OnShippingChangeData, OnCancelData } from './types';
+import { PayPalButtonProps, OnShippingChangeData, OnCancelData, OnCaptureData, OnApproveData } from './types';
 declare function usePaypalMethods(props: PayPalButtonProps): {
-    onApprove: (data: any, actions: any) => void;
-    onAuthorize: (data: any, actions: any) => any;
+    onApprove: (data: OnApproveData | OnCaptureData, actions: any) => any;
     onCancel: (data: OnCancelData) => void;
     onShippingChange: (data: OnShippingChangeData, actions: any) => any;
     createOrder: (data: any, actions: any) => any;

@@ -30,6 +30,27 @@ export type OnShippingChangeData = {
   }
 }
 
+export type OnApproveData = {orderID: string, payerID: string};
+
+export type OnCaptureData = {
+  create_time: string;
+  id: string;
+  intent: String;
+  links: Array<{href: string; method: string; rel: string; title: string;}>
+  payer: {
+    address: {country_code: string}
+    email_address: string;
+    name: {
+      given_name: string; // first name
+      surname: string; // last name
+    },
+    payer_id: string;
+  };
+  purchase_units: Array<object>;
+  status: string;
+  update_time: string;
+}
+
 export type PayPalPaymentData = {
   cart: string;
   create_time: string;
@@ -72,10 +93,26 @@ export interface PayPalButtonProps {
   amount: number;
   currency: string;
   intent?: 'capture' | 'authorize';
-  onApprove?: (data: PayPalPaymentData, authId: string) => void;
+  onApprove?: (data: {orderID: string, payerID: string}, authId: string) => void;
   onPaymentStart?: () => void;
-  onPaymentSuccess?: (response: PayPalPaymentData) => void;
+  onPaymentSuccess?: (response: PayPalPaymentData | OnCaptureData) => void;
   onPaymentError?: (msg: string) => void;
   onPaymentCancel?: (data: OnCancelData) => void;
   onShippingChange?: (data: OnShippingChangeData) => OnShippingChangeReturnType;
+}
+
+export interface PaypalOptions {
+  clientId?: string,
+  merchantId?: string,
+  currency?: number|string,
+  intent?: string,
+  commit?: boolean|string,
+  vault?: boolean|string,
+  component?: string,
+  disableFunding?: string,
+  disableCard?: string,
+  integrationDate?: string,
+  locale?: string,
+  buyerCountry?: string,
+  debug?: boolean|string
 }

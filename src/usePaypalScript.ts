@@ -1,12 +1,20 @@
 import { useState, useEffect } from 'react';
 import { PayPalButtonProps } from './types';
-import typeGuard from './typeGuard';
 import composeUrl from './composeUrl';
 
-function usePaypalScript(props: PayPalButtonProps) {
+type Props = {
+  loading: boolean;
+  done: boolean;
+  error:boolean;
+}
+
+function usePaypalScript(props: PayPalButtonProps): Props {
   let scriptCache: string[] = [];
-  const apiKey = props.sandboxID || props.productionID
-  const url = composeUrl(typeGuard(apiKey));
+
+  const url = composeUrl({
+    clientId: props.sandboxID || props.productionID,
+    intent: props.intent
+  });
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -33,6 +41,7 @@ function usePaypalScript(props: PayPalButtonProps) {
     }
 
     const onScriptError = () => {
+      // if we error out, retry by removing the url from the cache
       const urlIndex = scriptCache.indexOf(url);
       if(urlIndex !== -1){
         scriptCache.splice(urlIndex, 1);
