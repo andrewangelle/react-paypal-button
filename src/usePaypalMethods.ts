@@ -1,5 +1,12 @@
 import { useCallback } from 'react';
-import { PayPalButtonProps,  OnShippingChangeData, OnCancelData, OnCaptureData, OnApproveData } from './types';
+
+import {
+  PayPalButtonProps,
+  OnShippingChangeData,
+  OnCancelData,
+  OnCaptureData,
+  OnApproveData
+} from './types';
 
 function usePaypalMethods (props: PayPalButtonProps){
 
@@ -7,7 +14,7 @@ function usePaypalMethods (props: PayPalButtonProps){
     data: OnApproveData | OnCaptureData,
     actions: any
   ) => {
-    if(props.intent === 'capture' ) {
+    if(props.paypalOptions.intent === 'capture') {
       return actions.order.capture()
       .then((details: OnCaptureData) => {
         if (props.onPaymentSuccess) {
@@ -20,7 +27,7 @@ function usePaypalMethods (props: PayPalButtonProps){
         }
         console.error(`
           react-paypal-button capture error.
-          This is an issue with paypal's api and the way their handling their session data.
+          This is likely an issue with paypal's api and the way they are handling their session data.
           Try closing and reopening your browser
           Original error message: ${e.message}
         ` )
@@ -38,7 +45,9 @@ function usePaypalMethods (props: PayPalButtonProps){
           props.onPaymentError(e)
         }
         console.error(`
-          react-paypal-button authorization error
+          react-paypal-button authorization error.
+          This is likely an issue with paypal's api and the way they are handling their session data.
+          Try closing and reopening your browser
           Original error message: ${e.message}
         `)
       })
@@ -66,7 +75,7 @@ function usePaypalMethods (props: PayPalButtonProps){
         {
           amount: {
             total: props.amount,
-            currency: props.currency,
+            currency: props.paypalOptions.currency,
           }
         }
       ]
@@ -86,7 +95,7 @@ function usePaypalMethods (props: PayPalButtonProps){
         const baseOrderAmount = `${props.amount}`
         const shippingAmount = `${rate}`;
         const value = (parseFloat(baseOrderAmount) + parseFloat(shippingAmount)).toFixed(2);
-        const currency_code = props.currency
+        const currency_code = props.paypalOptions.currency
 
         return actions.order.patch([
           {

@@ -15,11 +15,12 @@ export function Example() {
     <div style={buttonStyles as any}>
       <h3>Try me out</h3>
       <PayPalButton
-        env="sandbox"
-        intent="capture"
+        paypalOptions={{
+          clientId: paypalClientId,
+          intent:'capture',
+          currency:'USD'
+        }}
         amount={1.00}
-        sandboxID={paypalClientId}
-        currency="USD"
         onPaymentStart={() => console.log('onPaymentStart')}
         onPaymentSuccess={data => console.log('onPaymentSuccess', data)}
         onPaymentError={msg => console.log('payment error', msg)}

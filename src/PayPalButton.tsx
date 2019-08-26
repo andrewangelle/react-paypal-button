@@ -13,11 +13,6 @@ function PayPalButton(props: PayPalButtonProps) {
     if(!loading && done){
       window.paypal.Buttons({
         amount:props.amount,
-        client: {
-          sandbox: props.sandboxID,
-          production: props.productionID
-        },
-        env:props.env,
         createOrder:methods.createOrder,
         onApprove:methods.onApprove,
         onCancel:methods.onCancel,
@@ -27,9 +22,7 @@ function PayPalButton(props: PayPalButtonProps) {
     }
   },[loading, done])
 
-  return (
-    <div id="paypal-button" />
-  )
+  return <div id="paypal-button" />
 }
 
 

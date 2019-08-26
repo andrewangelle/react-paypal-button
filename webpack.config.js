@@ -1,6 +1,4 @@
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const libraryName = 'reactGlide';
 
 const config = {
   entry: path.join(__dirname, 'src/index.ts'),

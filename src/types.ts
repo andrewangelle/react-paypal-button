@@ -30,7 +30,10 @@ export type OnShippingChangeData = {
   }
 }
 
-export type OnApproveData = {orderID: string, payerID: string};
+export type OnApproveData = {
+  orderID: string,
+  payerID: string
+};
 
 export type OnCaptureData = {
   create_time: string;
@@ -51,61 +54,17 @@ export type OnCaptureData = {
   update_time: string;
 }
 
-export type PayPalPaymentData = {
-  cart: string;
-  create_time: string;
-  id: string;
-  intent: 'sale' | 'purchase';
-  payer: {
-    payer_info: {
-      country_code: string;
-      email: string;
-      first_name: string;
-      last_name: string;
-      middle_name: string;
-      payer_id: string;
-      shipping_address: {
-        city: string;
-        country_code: string;
-        line1: string;
-        postal_code: string
-        recipient_name: string;
-        state: string;
-      }
-    };
-    payment_method: string;
-    status: 'UNVERIFIED' | 'VERIFIED';
-  };
-  state: string;
-  transaction: any[];
-}
-
 
 type OnShippingChangeReturnType =
   Promise<number | void> |
   number |
   void;
 
-export interface PayPalButtonProps {
-  env: 'sandbox' | 'production';
-  sandboxID?: string;
-  productionID?: string;
-  amount: number;
-  currency: string;
-  intent?: 'capture' | 'authorize';
-  onApprove?: (data: {orderID: string, payerID: string}, authId: string) => void;
-  onPaymentStart?: () => void;
-  onPaymentSuccess?: (response: PayPalPaymentData | OnCaptureData) => void;
-  onPaymentError?: (msg: string) => void;
-  onPaymentCancel?: (data: OnCancelData) => void;
-  onShippingChange?: (data: OnShippingChangeData) => OnShippingChangeReturnType;
-}
-
 export interface PaypalOptions {
-  clientId?: string,
+  clientId: string,
   merchantId?: string,
   currency?: number|string,
-  intent?: string,
+  intent: string,
   commit?: boolean|string,
   vault?: boolean|string,
   component?: string,
@@ -116,3 +75,16 @@ export interface PaypalOptions {
   buyerCountry?: string,
   debug?: boolean|string
 }
+
+
+export interface PayPalButtonProps {
+  paypalOptions: PaypalOptions;
+  amount: number | string;
+  onApprove?: (data: OnApproveData, authId: string) => void;
+  onPaymentStart?: () => void;
+  onPaymentSuccess?: (response: OnCaptureData) => void;
+  onPaymentError?: (msg: string) => void;
+  onPaymentCancel?: (data: OnCancelData) => void;
+  onShippingChange?: (data: OnShippingChangeData) => OnShippingChangeReturnType;
+}
+

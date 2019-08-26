@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+
 import { PayPalButtonProps } from './types';
 import composeUrl from './composeUrl';
 
@@ -11,10 +12,7 @@ type Props = {
 function usePaypalScript(props: PayPalButtonProps): Props {
   let scriptCache: string[] = [];
 
-  const url = composeUrl({
-    clientId: props.sandboxID || props.productionID,
-    intent: props.intent
-  });
+  const url = composeUrl(props.paypalOptions);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -22,6 +20,7 @@ function usePaypalScript(props: PayPalButtonProps): Props {
 
 
   useEffect(() => {
+    // early exit if cache is in script
     if(scriptCache.includes(url)){
       setLoading(false)
       setDone(true),
@@ -61,6 +60,8 @@ function usePaypalScript(props: PayPalButtonProps): Props {
       script.removeEventListener('load', onScriptLoad);
       script.removeEventListener('error', onScriptError);
     }
+
+    // rerun if url changes
   }, [url]);
 
   return { loading, error, done }
