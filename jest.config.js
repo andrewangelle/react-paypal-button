@@ -4,6 +4,7 @@ module.exports = {
     "src/**/*.{tsx}"
   ],
   transform: {
+    '^.+\\.ts?$': 'babel-jest',
     '^.+\\.tsx?$': 'babel-jest',
   },
   roots: [
@@ -15,10 +16,6 @@ module.exports = {
     },
   },
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
-  moduleNameMapper: {
-    "\\.(css)$": "<rootDir>/node_modules/jest-css-modules",
-    "\\.(ts)$": "<rootDir>/node_modules/typescript"
-  },
   snapshotSerializers: ["enzyme-to-json/serializer"],
   moduleFileExtensions: [
     "ts",

@@ -1,9 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { TSExample } from './TSExample';
+import { Example } from './Example';
 import './style.css';
 
 render(
-  <TSExample />,
+  <Example />,
   document.getElementById('root')
 );

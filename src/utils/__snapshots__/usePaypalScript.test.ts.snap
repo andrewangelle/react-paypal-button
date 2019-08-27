@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`usePaypalMethods returns loading state 1`] = `
+Object {
+  "done": false,
+  "error": false,
+  "loading": true,
+}
+`;

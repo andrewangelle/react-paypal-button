@@ -1,5 +1,5 @@
-import { PaypalOptions } from '../types';
 import { baseUrl } from './constants';
+import { PaypalOptions } from '../types';
 
 export const composeUrl = (options: PaypalOptions) => {
   const queryString = Object.keys(options)

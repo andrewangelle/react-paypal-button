@@ -1,5 +1,7 @@
 node_modules
 example/dist
 .env
+example/.env
 bin/
+react-paypal-button-3.2.0.tgz
 

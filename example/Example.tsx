@@ -9,7 +9,7 @@ const wrapperStyles: React.CSSProperties = {
 }
 
 const paypalOptions: PaypalOptions = {
-  clientId: '12345',
+  clientId: process.env.PAYPAL_CLIENT_ID,
   intent:'capture',
   currency:'USD',
 };
@@ -21,7 +21,7 @@ const buttonStyles: ButtonStylingOptions = {
   tagline: false
 }
 
-export function TSExample() {
+export function Example() {
   return (
     <div style={wrapperStyles}>
       <PayPalButton

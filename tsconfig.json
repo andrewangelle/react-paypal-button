@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "outDir": "bin/types",
-    "module": "esnext",
+    "rootDir": "src",
+    "outDir": "dist/types",
+    "module": "es6",
     "target": "es2015",
     "lib": [
       "es6",
@@ -22,26 +23,12 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "*": [
-        "src/*"
-      ]
-    }
   },
   "exclude": [
     "bin",
     "example",
-    "src/utils/index.ts",
-    "src/utils/composeUrl.ts",
-    "src/utils/constants.ts",
-    "src/utils/usePaypalMethods.ts",
-    "src/utils/usePaypalScript.ts"
   ],
   "include": [
-    "src/types.ts",
-    "src/PayPalButton.tsx",
-    "src/index.ts",
-    "src/tests"
+    "src"
   ]
 }
