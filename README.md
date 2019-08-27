@@ -34,27 +34,8 @@ export default class App extends Component {
         onPaymentError={(msg) => console.log('payment error', msg)}
         onShippingChange={(data) => {
           console.log('onShippingChange', data)
-          // run code to calculate and update your shipping charges
-          // this callback will also work as an async function
-          // you can optionally return a number representing the new shipping amount
           return 1.00
         }}
-      />
-    )
-  }
-}
-```
-When using button in Production mode, update the follow props ..
-
-```javascript
-import { PayPalButton } from 'react-paypal-button'
-
-export default class App extends Component {
-  render(){
-    return (
-      <PayPalButton
-        env='production'
-        productionID='abcdef123456'
       />
     )
   }
@@ -64,12 +45,10 @@ export default class App extends Component {
 
 ### Types
 ```typescript
-export type PayPalButtonProps = {
-  env: 'sandbox' | 'production';
-  sandboxID?: string;
-  productionID?: string;
+type PayPalButtonProps = {
+  paypalOptions: PaypalOptions;
+  buttonStyles: ButtonStylingOptions;
   amount: number;
-  currency: string;
   onPaymentStart?: () => void;
   onPaymentSuccess?: (response: PayPalPaymentData) => void;
   onPaymentError?: (msg: string) => void;
@@ -77,6 +56,10 @@ export type PayPalButtonProps = {
   onShippingChange?: (data: OnShippingChangeData) => Promise<string> | string;
 }
 ```
+
+* See [list of available styling options](https://developer.paypal.com/docs/checkout/integration-features/customize-button/#color) to pass to `buttonOptions`
+
+* See [list of available options](https://developer.paypal.com/docs/checkout/reference/customize-sdk/#query-parameters) to pass to `paypalOptions`
 
 | option      | type  | description                              |
 |--------------|-------|-------------------------------------------|

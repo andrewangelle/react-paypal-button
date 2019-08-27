@@ -36,6 +36,7 @@
   ],
   "include": [
     "src/types.ts",
-    "src/PayPalButton.tsx"
+    "src/PayPalButton.tsx",
+    "src/index.ts"
   ]
 }

@@ -8,8 +8,7 @@ function PayPalButton(props: PayPalButtonProps) {
   const methods = usePaypalMethods(props);
 
   useEffect(() => {
-    // check for window to support SSR
-    if(window !== undefined) {
+    if(window !== undefined) {// check for window to support SSR
       if(!loading && done){
         window.paypal
           .Buttons({

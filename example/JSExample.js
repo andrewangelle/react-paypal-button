@@ -1,26 +1,24 @@
 import React from 'react';
-import { PayPalButton, PaypalOptions, ButtonStylingOptions } from '../src';
+import { PayPalButton } from '../src';
 
-const wrapperStyles: React.CSSProperties = {
+const wrapperStyles = {
   textAlign: 'center',
   padding: '5rem',
   width: '30%',
   margin: '5rem auto'
 }
 
-const clientId = 'AWRtWwqJDhoCtUatTvQDdGLyknKIXhaIozn0IrZxAY8d2hkyaLWn_hCydMBjvwRPiHiVIAwkSuv9DQaJ';
-
-const paypalOptions: PaypalOptions = {
-  clientId,
+const paypalOptions = {
+  clientId: '123456',
   intent:'capture',
   currency:'USD'
 };
 
-const buttonStyles: ButtonStylingOptions = {
+const buttonStyles = {
   layout: 'vertical',
   shape: 'rect'
 }
-export function Example() {
+export function JSExample() {
   return (
     <div style={wrapperStyles}>
       <PayPalButton

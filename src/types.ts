@@ -69,7 +69,7 @@ export type PaypalOptions = {
   vault?: boolean|string,
   components?: string,
   disableFunding?: string,
-  disableCard?: string,
+  disableCard?: string, // card, credit, bancontact
   integrationDate?: string,
   locale?: string,
   buyerCountry?: string,
