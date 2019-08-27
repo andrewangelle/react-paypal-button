@@ -56,23 +56,31 @@ export declare type OnCaptureData = {
     update_time: string;
 };
 declare type OnShippingChangeReturnType = Promise<number | void> | number | void;
-export interface PaypalOptions {
+export declare type PaypalOptions = {
     clientId: string;
     merchantId?: string;
     currency?: number | string;
-    intent: string;
+    intent: 'capture' | 'authorize';
     commit?: boolean | string;
     vault?: boolean | string;
-    component?: string;
+    components?: string;
     disableFunding?: string;
     disableCard?: string;
     integrationDate?: string;
     locale?: string;
     buyerCountry?: string;
     debug?: boolean | string;
-}
+};
+export declare type ButtonStylingOptions = {
+    layout?: 'vertical' | 'horizontal';
+    color?: 'blue' | 'gold' | 'silver' | 'white' | 'black';
+    shape?: 'rect' | 'pill';
+    label?: 'paypal' | 'checkout' | 'buynow' | 'pay' | 'installment';
+    tagline?: boolean;
+};
 export interface PayPalButtonProps {
     paypalOptions: PaypalOptions;
+    buttonStyles?: ButtonStylingOptions;
     amount: number | string;
     onApprove?: (data: OnApproveData, authId: string) => void;
     onPaymentStart?: () => void;

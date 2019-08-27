@@ -1,6 +1,6 @@
-import { PaypalOptions } from 'types';
+import { PaypalOptions } from '../types';
 
-const composeUrl = (options: PaypalOptions) => {
+export const composeUrl = (options: PaypalOptions) => {
   const baseUrl = 'https://www.paypal.com/sdk/js';
 
   const queryString = Object
@@ -17,5 +17,3 @@ const composeUrl = (options: PaypalOptions) => {
   const url = `${baseUrl}${queryString}`;
   return url;
 }
-
-export default composeUrl

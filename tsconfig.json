@@ -32,9 +32,10 @@
   "exclude": [
     "lib",
     "example",
-    "src/tests"
+    "src/utils/*.ts"
   ],
   "include": [
-    "src/"
+    "src/types.ts",
+    "src/PayPalButton.tsx"
   ]
 }

@@ -6,9 +6,10 @@ import {
   OnCancelData,
   OnCaptureData,
   OnApproveData
-} from './types';
+} from '../types';
+import { authError, captureError } from './constants';
 
-function usePaypalMethods (props: PayPalButtonProps){
+export function usePaypalMethods (props: PayPalButtonProps){
 
   const onApprove = useCallback((
     data: OnApproveData | OnCaptureData,
@@ -25,10 +26,7 @@ function usePaypalMethods (props: PayPalButtonProps){
         if(props.onPaymentError){
           props.onPaymentError(e)
         }
-        console.error(`
-          react-paypal-button capture error.
-          This is likely an issue with paypal's api and the way they are handling their session data.
-          Try closing and reopening your browser
+        console.error(captureError, `
           Original error message: ${e.message}
         ` )
       })
@@ -44,10 +42,7 @@ function usePaypalMethods (props: PayPalButtonProps){
         if(props.onPaymentError){
           props.onPaymentError(e)
         }
-        console.error(`
-          react-paypal-button authorization error.
-          This is likely an issue with paypal's api and the way they are handling their session data.
-          Try closing and reopening your browser
+        console.error(authError, `
           Original error message: ${e.message}
         `)
       })
@@ -138,5 +133,3 @@ function usePaypalMethods (props: PayPalButtonProps){
   }
 
 }
-
-export default usePaypalMethods

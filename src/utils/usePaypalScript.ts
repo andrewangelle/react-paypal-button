@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-import { PayPalButtonProps } from './types';
-import composeUrl from './composeUrl';
+import { PaypalOptions } from '../types';
+import { scriptLoadError, composeUrl } from '.';
 
 type Props = {
   loading: boolean;
@@ -9,10 +9,10 @@ type Props = {
   error:boolean;
 }
 
-function usePaypalScript(props: PayPalButtonProps): Props {
+export function usePaypalScript(options: PaypalOptions): Props {
   let scriptCache: string[] = [];
 
-  const url = composeUrl(props.paypalOptions);
+  const url = composeUrl(options);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -46,6 +46,8 @@ function usePaypalScript(props: PayPalButtonProps): Props {
         scriptCache.splice(urlIndex, 1);
         script.remove()
       }
+
+      console.error(scriptLoadError)
       setLoading(false)
       setDone(true),
       setError(true)
@@ -66,5 +68,3 @@ function usePaypalScript(props: PayPalButtonProps): Props {
 
   return { loading, error, done }
 }
-
-export default usePaypalScript
