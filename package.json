@@ -73,8 +73,5 @@
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.6.0"
   },
-  "dependencies": {
-    "@babel/polyfill": "^7.4.4",
-    "babel-polyfill": "^6.26.0"
-  }
+  "dependencies": {}
 }
