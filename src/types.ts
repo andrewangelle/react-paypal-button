@@ -56,35 +56,36 @@ export type OnCaptureData = {
 
 
 type OnShippingChangeReturnType =
-  Promise<number | void> |
+  Promise<number | void | string> |
   number |
+  string |
   void;
 
 export type PaypalOptions = {
-  clientId: string,
-  merchantId?: string,
-  currency?: number|string,
-  intent: 'capture' | 'authorize',
-  commit?: boolean|string,
-  vault?: boolean|string,
-  components?: string,
-  disableFunding?: string,
-  disableCard?: string, // card, credit, bancontact
-  integrationDate?: string,
-  locale?: string,
-  buyerCountry?: string,
-  debug?: boolean|string
+  clientId: string;
+  merchantId?: string;
+  currency?: number | string;
+  intent: 'capture' | 'authorize';
+  commit?: boolean;
+  vault?: boolean;
+  components?: string;
+  disableFunding?: Array<'card' | 'credit' | 'bancontact'>;
+  disableCard?: Array<'amex' | 'discover' | 'visa' | 'mastercard'>;
+  integrationDate?: string;
+  locale?: string;
+  buyerCountry?: string;
+  debug?: boolean|string;
 }
 
 export type ButtonStylingOptions = {
-  layout?:  'vertical' | 'horizontal',
+  layout?:  'vertical' | 'horizontal';
   color?:   'blue' | 'gold' | 'silver' | 'white' | 'black';
   shape?:   'rect' | 'pill';
   label?:   'paypal' | 'checkout' | 'buynow' | 'pay' | 'installment';
   tagline?: boolean;
 }
 
-export interface PayPalButtonProps {
+export type PayPalButtonProps = {
   paypalOptions: PaypalOptions;
   buttonStyles?: ButtonStylingOptions,
   amount: number | string;

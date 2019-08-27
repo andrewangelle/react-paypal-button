@@ -9,15 +9,18 @@ const wrapperStyles: React.CSSProperties = {
 }
 
 const paypalOptions: PaypalOptions = {
-  clientId: '123456',
+  clientId: '12345',
   intent:'capture',
-  currency:'USD'
+  currency:'USD',
 };
 
 const buttonStyles: ButtonStylingOptions = {
   layout: 'vertical',
-  shape: 'rect'
+  shape: 'rect',
+  label: 'checkout',
+  tagline: false
 }
+
 export function TSExample() {
   return (
     <div style={wrapperStyles}>

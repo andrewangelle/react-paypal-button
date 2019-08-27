@@ -1,19 +1,28 @@
 import { PaypalOptions } from '../types';
+import { baseUrl } from './constants';
 
 export const composeUrl = (options: PaypalOptions) => {
-  const baseUrl = 'https://www.paypal.com/sdk/js';
-
-  const queryString = Object
-    .keys(options)
+  const queryString = Object.keys(options)
     .reduce((prevParams, currentValue, index) => {
-      const camelCaseToDash = currentValue.split(/(?=[A-Z])/).join('-').toLowerCase();
-      const keyValuePair = `${camelCaseToDash}=${options[currentValue]}`
+      const convertKeyFromCamelCaseToDash = currentValue
+        .split(/(?=[A-Z])/)
+        .join('-')
+        .toLowerCase();
+
+      // for disableCard or disableFunding prop convert array to comma seperated string
+      // else return the value
+      const value = (currentValue === 'disableCard' || currentValue === 'disableFunding')
+        ? (options[currentValue] as string[]).join(',')
+        : options[currentValue];
+
+      // add an '&' symbol to key value pair for all except for the first one
+      const keyValuePair = `${index === 0 ? '' : '&'}${convertKeyFromCamelCaseToDash}=${value}`
 
       // combine the previous key value pairs with the current one
-      // seperated by an '&' symbol except for the first key value pair
-      return `${prevParams}${index === 0 ? '' : '&'}${keyValuePair}`
+      return `${prevParams}${keyValuePair}`
     },'?');
 
   const url = `${baseUrl}${queryString}`;
+
   return url;
 }

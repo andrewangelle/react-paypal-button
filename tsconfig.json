@@ -30,13 +30,18 @@
     }
   },
   "exclude": [
-    "lib",
+    "bin",
     "example",
-    "src/utils/*.ts"
+    "src/utils/index.ts",
+    "src/utils/composeUrl.ts",
+    "src/utils/constants.ts",
+    "src/utils/usePaypalMethods.ts",
+    "src/utils/usePaypalScript.ts"
   ],
   "include": [
     "src/types.ts",
     "src/PayPalButton.tsx",
-    "src/index.ts"
+    "src/index.ts",
+    "src/tests"
   ]
 }

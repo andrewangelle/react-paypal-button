@@ -42,12 +42,14 @@ export function usePaypalScript(options: PaypalOptions): Props {
     const onScriptError = () => {
       // if we error out, retry by removing the url from the cache
       const urlIndex = scriptCache.indexOf(url);
+
       if(urlIndex !== -1){
         scriptCache.splice(urlIndex, 1);
         script.remove()
       }
 
-      console.error(scriptLoadError)
+      console.warn(scriptLoadError)
+
       setLoading(false)
       setDone(true),
       setError(true)

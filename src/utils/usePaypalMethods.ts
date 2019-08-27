@@ -42,7 +42,7 @@ export function usePaypalMethods (props: PayPalButtonProps){
         if(props.onPaymentError){
           props.onPaymentError(e)
         }
-        console.error(authError, `
+        console.warn(authError, `
           Original error message: ${e.message}
         `)
       })
@@ -87,6 +87,7 @@ export function usePaypalMethods (props: PayPalButtonProps){
           return actions.resolve()
         }
 
+        // otherwise tell paypal to update the total
         const baseOrderAmount = `${props.amount}`
         const shippingAmount = `${rate}`;
         const value = (parseFloat(baseOrderAmount) + parseFloat(shippingAmount)).toFixed(2);

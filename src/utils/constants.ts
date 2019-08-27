@@ -5,9 +5,9 @@ export const scriptLoadError = `
 `;
 
 export const authError = `
-react-paypal-button authorization error.
-This is likely an issue with paypal's api and the way they are handling their session data.
-Try closing and reopening your browser
+  react-paypal-button authorization error.
+  This is likely an issue with paypal's api and the way they are handling their session data.
+  Try closing and reopening your browser
 `;
 
 export const captureError = `
@@ -15,3 +15,5 @@ export const captureError = `
   This is likely an issue with paypal's api and the way they are handling their session data.
   Try closing and reopening your browser
 `
+
+export const baseUrl = 'https://www.paypal.com/sdk/js';
