@@ -2,6 +2,8 @@
 
 [![npm version](https://badge.fury.io/js/react-paypal-button.svg)](https://badge.fury.io/js/react-paypal-button)
 
+[![CircleCI](https://circleci.com/gh/andrewangelle/react-paypal-button.svg?style=svg)](https://circleci.com/gh/andrewangelle/react-paypal-button)
+
 <img src='paypalImage.png' width="400px" />
 
 A button component to implement PayPal&#39;s Express Checkout in React
@@ -10,7 +12,7 @@ A button component to implement PayPal&#39;s Express Checkout in React
 
 * To use PayPal's Express Checkout you must have a PayPal Business account set up and verified. After this is done, you'll have access to your API credentials to use with this button. Once you have your account set up you will have 2 different sets of credentials for sandbox mode and prouduction mode. Both will have a clientID, this is what you will use to pass to `paypalOptions`.
 
-* Because the internal implementation of this library uses hooks, version `4.x.x` and above of `react-paypal-button` requires a peer dependency of  `react` `v16.8.x`  `react-dom` `v16.8.x`.
+* Because the internals of this library use hooks, npm version `4.x.x` and above requires a peer dependency of  `react-v16.8.x`  `react-dom-v16.8.x`.
 
 ## Installation
 
@@ -44,6 +46,8 @@ export default function App() {
 ```
 
 ### Types
+
+* All relevant types are bundled and exported with the npm package
 
 ```typescript
 
