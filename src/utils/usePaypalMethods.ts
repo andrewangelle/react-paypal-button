@@ -42,7 +42,7 @@ export function usePaypalMethods (props: PayPalButtonProps){
         if(props.onPaymentError){
           props.onPaymentError(e)
         }
-        console.warn(authError, `
+        console.error(authError, `
           Original error message: ${e.message}
         `)
       })

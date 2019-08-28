@@ -6,11 +6,9 @@ A button component to implement PayPal&#39;s Express Checkout in React
 
 ## Prerequisites
 
-* To use PayPal's Express Checkout you must have a PayPal Business account set up and verified. After this is done, you'll have access to your API credentials to use with this button.
+* To use PayPal's Express Checkout you must have a PayPal Business account set up and verified. After this is done, you'll have access to your API credentials to use with this button. Once you have your account set up you will have 2 different sets of credentials for sandbox mode and prouduction mode. Both will have a clientID, this is what you will use to pass to `paypalOptions`.
 
-Once you have your account set up you will have 2 different sets of credentials for sandbox mode and prouduction mode. Both will have a clientID, this is what you will use to pass to `paypalOptions`.
-
-* Because the internal implementation is using hooks, version `4.x.x` and above of `react-paypal-button` requires a peer dependency of  `react` -`v16.8.x`  `react-dom`-`v16.8.x`.
+* Because the internal implementation of this library uses hooks, version `4.x.x` and above of `react-paypal-button` requires a peer dependency of  `react` `v16.8.x`  `react-dom` `v16.8.x`.
 
 ## Installation
 

@@ -48,7 +48,7 @@ export function usePaypalScript(options: PaypalOptions): Props {
         script.remove()
       }
 
-      console.warn(scriptLoadError)
+      console.error(scriptLoadError)
 
       setLoading(false)
       setDone(true),

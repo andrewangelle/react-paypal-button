@@ -1,3 +1,3 @@
 export { default as PayPalButton } from './PayPalButton';
-export * from './types'
+export * from './types.d'
 
