@@ -1,4 +1,4 @@
-import React, { useEffect }  from 'react';
+import React from 'react';
 
 import { usePaypalMethods, usePaypalScript } from './utils';
 import { PayPalButtonProps } from './types';
@@ -7,7 +7,7 @@ function PayPalButton(props: PayPalButtonProps) {
   const { loading, done } = usePaypalScript(props.paypalOptions);
   const methods = usePaypalMethods(props);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if(window !== undefined) {// check for window to support SSR
       if(!loading && done){
         window.paypal

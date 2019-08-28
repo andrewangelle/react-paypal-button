@@ -15,10 +15,9 @@ export const composeUrl = (options: PaypalOptions) => {
         ? (options[currentValue] as string[]).join(',')
         : options[currentValue];
 
-      // add an '&' symbol to key value pair for all except for the first one
+      // add an '&' symbol for all except the first key value pair
       const keyValuePair = `${index === 0 ? '' : '&'}${convertKeyFromCamelCaseToDash}=${value}`
 
-      // combine the previous key value pairs with the current one
       return `${prevParams}${keyValuePair}`
     },'?');
 

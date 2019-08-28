@@ -6,9 +6,11 @@ A button component to implement PayPal&#39;s Express Checkout in React
 
 ## Prerequisites
 
-To use PayPal's Express Checkout you must have a PayPal Business account set up and verified. After this is done, you'll have access to your API credentials to use with this button.
+* To use PayPal's Express Checkout you must have a PayPal Business account set up and verified. After this is done, you'll have access to your API credentials to use with this button.
 
 Once you have your account set up you will have 2 different sets of credentials for sandbox mode and prouduction mode. Both will have a clientID, this is what you will use to pass to `paypalOptions`.
+
+* Because the internal implementation is using hooks, version `4.x.x` and above of `react-paypal-button` requires a peer dependency of  `react` -`v16.8.x`  `react-dom`-`v16.8.x`.
 
 ## Installation
 
@@ -44,6 +46,7 @@ export default function App() {
 ### Types
 
 ```typescript
+
 type PayPalButtonProps = {
   paypalOptions: PaypalOptions;
   buttonStyles: ButtonStylingOptions;
@@ -59,9 +62,10 @@ type PayPalButtonProps = {
     number |
     void;
 }
+
 ```
 
-* See [list and documentation on styling options](https://developer.paypal.com/docs/checkout/integration-features/customize-button/#color) that are to be passed to `buttonOptions` prop
+* See [list and documentation on styling options](https://developer.paypal.com/docs/checkout/integration-features/customize-button/#color) that are to be passed to `buttonStyles` prop
 
 * See [list and documentation on values](https://developer.paypal.com/docs/checkout/reference/customize-sdk/#query-parameters) that are to be passed to `paypalOptions`prop
 
@@ -85,6 +89,18 @@ Generate UMD output in the `bin` folder:
 
 ```
 $ npm run build
+```
+
+Run tests in watch mode:
+
+```
+$ npm test
+```
+
+Perform a single run of tests:
+
+```
+$ npm run test:once
 ```
 
 ## License
