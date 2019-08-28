@@ -11,10 +11,30 @@ import { authError, captureError } from './constants';
 
 export function usePaypalMethods (props: PayPalButtonProps){
 
+  const onError = useCallback((data) => {
+    if(props.onPaymentError){
+      props.onPaymentError(data.message)
+    }
+  }, [])
+
+  const createSubscription = useCallback((data: any, actions: any) => {
+    if(props.paypalOptions.vault && props.subsciptionPlanId){
+      return actions.subscription.create({
+        subscription_id: props.subsciptionPlanId
+      })
+    }
+  }, [])
+
   const onApprove = useCallback((
     data: OnApproveData | OnCaptureData,
     actions: any
   ) => {
+    if(props.paypalOptions.vault){
+      if(props.onPaymentSuccess){
+        props.onPaymentSuccess(data as any)
+      }
+    }
+
     if(props.paypalOptions.intent === 'capture') {
       return actions.order.capture()
       .then((details: OnCaptureData) => {
@@ -30,7 +50,9 @@ export function usePaypalMethods (props: PayPalButtonProps){
           Original error message: ${e.message}
         ` )
       })
-    } else {
+    }
+
+    if(props.paypalOptions.intent === 'authorize'){
       actions.order.authorize()
       .then(auth => {
         const id = auth.purchase_units[0].payments.authorizations[0].id;
@@ -126,6 +148,8 @@ export function usePaypalMethods (props: PayPalButtonProps){
   }, []);
 
   return {
+    createSubscription,
+    onError,
     onApprove,
     onCancel,
     onShippingChange,

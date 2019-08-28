@@ -17,9 +17,11 @@ function PayPalButtonBase(props: PayPalButtonProps) {
             .Buttons({
               style: props.buttonStyles,
               amount: props.amount,
-              createOrder: methods.createOrder,
+              createOrder: props.paypalOptions.vault ? null : methods.createOrder,
+              createSubscription: methods.createSubscription,
               onApprove: methods.onApprove,
               onCancel: methods.onCancel,
+              onError: methods.onError,
               onShippingChange: methods.onShippingChange,
               payment: methods.payment,
             })
