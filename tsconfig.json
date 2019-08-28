@@ -2,7 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "rootDir": "src",
-    "outDir": "dist/types",
+    "outDir": "bin/types",
     "module": "es6",
     "target": "es2015",
     "lib": [
