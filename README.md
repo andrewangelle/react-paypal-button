@@ -1,7 +1,6 @@
 # React-Paypal-Button
 
 [![npm version](https://badge.fury.io/js/react-paypal-button.svg)](https://badge.fury.io/js/react-paypal-button)
-
 [![CircleCI](https://circleci.com/gh/andrewangelle/react-paypal-button.svg?style=svg)](https://circleci.com/gh/andrewangelle/react-paypal-button)
 
 <img src='paypalImage.png' width="400px" />
