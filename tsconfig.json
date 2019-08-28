@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "outDir": "dist",
-    "module": "esnext",
+    "rootDir": "src",
+    "outDir": "bin/types",
+    "module": "es6",
     "target": "es2015",
     "lib": [
       "es6",
@@ -22,17 +23,10 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "*": [
-        "src/*"
-      ]
-    }
   },
   "exclude": [
-    "lib",
+    "bin",
     "example",
-    "src/tests"
   ],
   "include": [
     "src"

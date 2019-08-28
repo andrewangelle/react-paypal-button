@@ -1,14 +1,16 @@
 # React-Paypal-Button
 
-<img src='paypalImage.png' width="200px" />
+[![npm version](https://badge.fury.io/js/react-paypal-button.svg)](https://badge.fury.io/js/react-paypal-button)
+
+<img src='paypalImage.png' width="400px" />
 
 A button component to implement PayPal&#39;s Express Checkout in React
 
 ## Prerequisites
 
-To use PayPal's Express Checkout you must have a PayPal Business account set up and verified. After this is done, you'll have access to your API credentials to use with this button.
+* To use PayPal's Express Checkout you must have a PayPal Business account set up and verified. After this is done, you'll have access to your API credentials to use with this button. Once you have your account set up you will have 2 different sets of credentials for sandbox mode and prouduction mode. Both will have a clientID, this is what you will use to pass to `paypalOptions`.
 
-Once you have your account set up you will have 2 different sets of credentials for sandbox mode and prouduction mode. Both will have a clientID, this is what you will use for the productionID prop or the sandboxID prop.
+* Because the internal implementation of this library uses hooks, version `4.x.x` and above of `react-paypal-button` requires a peer dependency of  `react` `v16.8.x`  `react-dom` `v16.8.x`.
 
 ## Installation
 
@@ -21,75 +23,54 @@ $ npm install react-paypal-button --save
 ```javascript
 import { PayPalButton } from 'react-paypal-button'
 
-export default class App extends Component {
-  render(){
-    return (
-      <PayPalButton
-        env='sandbox'
-        sandboxID='abcdef123456'
-        amount='0.01'
-        currency='USD'
-        onPaymentStart={() => console.log('payment started')}
-        onPaymentSuccess={(res) => console.log('payment complete', res)}
-        onPaymentError={(msg) => console.log('payment error', msg)}
-        onShippingChange={(data) => {
-          console.log('onShippingChange', data)
-          // run code to calculate and update your shipping charges
-          // this callback will also work as an async function
-          // you can optionally return a number representing the new shipping amount
-          return 1.00
-        }}
-      />
-    )
+export default function App() {
+  const paypalOptions = {
+    clientId: '12345',
+    intent: 'capture'
   }
+
+  const buttonStyles = {
+    layout: 'vertical',
+    shape: 'rect',
+  }
+  return (
+    <PayPalButton
+      paypalOptions={paypalOptions}
+      buttonStyles={buttonStyles}
+      amount={1.00}
+    />
+  )
 }
 ```
-When using button in Production mode, update the follow props ..
-
-```javascript
-import { PayPalButton } from 'react-paypal-button'
-
-export default class App extends Component {
-  render(){
-    return (
-      <PayPalButton
-        env='production'
-        productionID='abcdef123456'
-      />
-    )
-  }
-}
-```
-## Options
 
 ### Types
+
 ```typescript
-export type PayPalButtonProps = {
-  env: 'sandbox' | 'production';
-  sandboxID?: string;
-  productionID?: string;
+
+type PayPalButtonProps = {
+  paypalOptions: PaypalOptions;
+  buttonStyles: ButtonStylingOptions;
   amount: number;
-  currency: string;
+  onApprove?: (data, authId) => void;
   onPaymentStart?: () => void;
-  onPaymentSuccess?: (response: PayPalPaymentData) => void;
+  onPaymentSuccess?: (response: OnCaptureData) => void;
   onPaymentError?: (msg: string) => void;
   onPaymentCancel?: (data: OnCancelData) => void;
-  onShippingChange?: (data: OnShippingChangeData) => Promise<string> | string;
+  onShippingChange?: (data: OnShippingChangeData) =>
+    Promise<void | string | number> |
+    string |
+    number |
+    void;
 }
+
 ```
 
-| option      | type  | description                              |
-|--------------|-------|-------------------------------------------|
-|`env`         | string|Declares the environment. Will either be set to 'production' for live or 'sandbox' for testing.|
-|`sandboxID`    |string| This will be your clientID from your PayPal Sandbox API credentials found in your PayPal Business account info.|
-|`productionID`|string| This will be your clientID from your PayPal Live API credentials found in your PayPal Business account info.|
-|`amount`      |integer| The amount of the transaction. |
-|`currency`     |string | The currency of the transaction. See PayPal docs for list of accepted currencies. |
-|`onPaymentStart`     |fn | a callback function that runs when the user clicks on the checkout button as the modal loads. |
-|`onPaymentSuccess`     |fn | a callback function that runs after a successful payment and includes the payment object from paypal as its argument. |
-|`onPaymentError`     |fn | a callback function that runs if the payment execution or authorization process errors out, and includes the error message as its argument |
-|`onPaymentCancel`     |fn | a callback function that runs if the user cancels the checkout process or exits the modal |
-|`onShippingChange`     |fn | a callback function that runs before payment execution with the user's default shipping address. It also runs when/if the user updates their shipping address during the interaction. You can optionally return a number representing the new shipping amount to be added to the order total|
+* See [list and documentation on styling options](https://developer.paypal.com/docs/checkout/integration-features/customize-button/#color) that are to be passed to `buttonStyles` prop
+
+* See [list and documentation on values](https://developer.paypal.com/docs/checkout/reference/customize-sdk/#query-parameters) that are to be passed to `paypalOptions`prop
+
+* See examples folder for more examples
+
 ## Development
 
 Install dependencies:
@@ -104,10 +85,22 @@ Run the example app at [http://localhost:8008](http://localhost:8008):
 $ npm start
 ```
 
-Generate UMD output in the `lib` folder (runs implicitly on `npm version`):
+Generate UMD output in the `bin` folder:
 
 ```
 $ npm run build
+```
+
+Run tests in watch mode:
+
+```
+$ npm test
+```
+
+Perform a single run of tests:
+
+```
+$ npm run test:once
 ```
 
 ## License

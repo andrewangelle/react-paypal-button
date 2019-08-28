@@ -5,8 +5,9 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const libraryName = 'reactGlide';
+const DotEnv = require('dotenv-webpack')
 
-module.exports = {
+const config = {
   entry: path.join(__dirname),
   output: {
     path: path.join(__dirname, 'dist'),
@@ -76,6 +77,10 @@ module.exports = {
       filename: libraryName + '.css',
       chunkFilename: libraryName + '.[id].css'
     }),
-
+    new DotEnv({
+      path: './.env'
+    })
   ]
 };
+
+module.exports = config;

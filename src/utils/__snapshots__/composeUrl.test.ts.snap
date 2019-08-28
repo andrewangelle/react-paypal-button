@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`composeUrl composes the paypal url from options 1`] = `"https://www.paypal.com/sdk/js?client-id=12345&intent=capture"`;
+
+exports[`composeUrl works with array values 1`] = `"https://www.paypal.com/sdk/js?client-id=12345&intent=capture&disable-card=amex,visa,discover&disable-funding=credit,bancontact"`;

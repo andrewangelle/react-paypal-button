@@ -1,30 +1,39 @@
 import React from 'react';
-import {
-  PayPalButton,
-  OnCancelData,
-  OnShippingChangeData,
-  PayPalPaymentData
-} from '../src';
+import { PayPalButton, PaypalOptions, ButtonStylingOptions } from '../src';
+
+const wrapperStyles: React.CSSProperties = {
+  textAlign: 'center',
+  padding: '5rem',
+  width: '30%',
+  margin: '5rem auto'
+}
+
+const paypalOptions: PaypalOptions = {
+  clientId: process.env.PAYPAL_CLIENT_ID,
+  intent:'authorize',
+  currency:'USD',
+};
+
+const buttonStyles: ButtonStylingOptions = {
+  layout: 'vertical',
+  shape: 'rect',
+  label: 'checkout',
+  tagline: false
+}
 
 export function Example() {
-  const buttonStyles = {
-    textAlign: 'center',
-    padding: '1rem',
-    margin: '1rem'
-  }
   return (
-    <div style={buttonStyles as any}>
-      <h3>Try me out</h3>
+    <div style={wrapperStyles}>
       <PayPalButton
-        env="sandbox"
+        paypalOptions={paypalOptions}
+        buttonStyles={buttonStyles}
         amount={1.00}
-        sandboxID="12345" // <- replace with an actual id
-        currency="USD"
-        onPaymentStart={() => console.log('payment started')}
-        onPaymentSuccess={(res: PayPalPaymentData) => console.log('payment complete', res)}
-        onPaymentError={(msg: string) => console.log('payment error', msg)}
-        onPaymentCancel={(data: OnCancelData) => console.log(data)}
-        onShippingChange={(data: OnShippingChangeData) => console.log('onShippingChange', data)}
+        onApprove={(data, authId) => console.log('onApprove', data, authId)}
+        onPaymentStart={() => console.log('onPaymentStart')}
+        onPaymentSuccess={data => console.log('onPaymentSuccess', data)}
+        onPaymentError={msg => console.log('payment error', msg)}
+        onPaymentCancel={data => console.log(data)}
+        onShippingChange={data => console.log('onShippingChange', data)}
       />
     </div>
   );

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`usePaypalMethods returns an object with methods for paypal lib 1`] = `
+Object {
+  "createOrder": [Function],
+  "onApprove": [Function],
+  "onCancel": [Function],
+  "onShippingChange": [Function],
+  "payment": [Function],
+}
+`;
