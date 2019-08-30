@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 
 import {
-  PayPalButtonProps,
   OnShippingChangeData,
   OnCancelData,
   OnCaptureData,
-  OnApproveData
+  OnApproveData,
+  PayPalButtonProps,
 } from '../types';
 import { authError, captureError } from './constants';
 
@@ -20,7 +20,7 @@ export function usePaypalMethods (props: PayPalButtonProps){
   const createSubscription = useCallback((data: any, actions: any) => {
     if(props.paypalOptions.vault && props.subsciptionPlanId){
       return actions.subscription.create({
-        subscription_id: props.subsciptionPlanId
+        plan_id: props.subsciptionPlanId
       })
     }
   }, [])
@@ -29,7 +29,7 @@ export function usePaypalMethods (props: PayPalButtonProps){
     data: OnApproveData | OnCaptureData,
     actions: any
   ) => {
-    if(props.paypalOptions.vault){
+    if(props.paypalOptions.vault && props.subsciptionPlanId){
       if(props.onPaymentSuccess){
         props.onPaymentSuccess(data as any)
       }
@@ -148,12 +148,12 @@ export function usePaypalMethods (props: PayPalButtonProps){
   }, []);
 
   return {
+    createOrder,
     createSubscription,
-    onError,
     onApprove,
     onCancel,
+    onError,
     onShippingChange,
-    createOrder,
     payment
   }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { usePaypalMethods, usePaypalScript, scriptLoadError } from './utils';
 import { PayPalButtonProps } from './types';
@@ -7,7 +7,7 @@ function PayPalButtonBase(props: PayPalButtonProps) {
   const { loading, done } = usePaypalScript(props.paypalOptions);
   const methods = usePaypalMethods(props);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const hasWindow = window !== undefined && window.paypal !== undefined;
 
     if(hasWindow) {// check to support SSR
@@ -17,8 +17,12 @@ function PayPalButtonBase(props: PayPalButtonProps) {
             .Buttons({
               style: props.buttonStyles,
               amount: props.amount,
-              createOrder: props.paypalOptions.vault ? null : methods.createOrder,
-              createSubscription: methods.createSubscription,
+              createOrder: props.paypalOptions.vault
+                ? null
+                : methods.createOrder,
+              createSubscription: props.paypalOptions.vault
+                ? methods.createSubscription
+                : null ,
               onApprove: methods.onApprove,
               onCancel: methods.onCancel,
               onError: methods.onError,
