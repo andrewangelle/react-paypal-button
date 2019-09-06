@@ -78,7 +78,7 @@ const config = {
       chunkFilename: libraryName + '.[id].css'
     }),
     new DotEnv({
-      path: './.env'
+      path: '../.env'
     })
   ]
 };

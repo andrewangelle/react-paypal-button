@@ -9,7 +9,7 @@ const wrapperStyles: React.CSSProperties = {
 }
 
 const paypalOptions: PaypalOptions = {
-  clientId: process.env.PAYPAL_CLIENT_ID,
+  clientId: process.env.PAYPAL_CLIENT_ID!,
   intent:'capture',
   currency:'USD',
 };

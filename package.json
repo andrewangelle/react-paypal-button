@@ -49,7 +49,7 @@
     "@types/enzyme": "^3.10.3",
     "@types/enzyme-adapter-react-16": "^1.0.4",
     "@types/jest": "^23.3.14",
-    "@types/node": "^11.13.19",
+    "@types/node": "^11.13.20",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
     "@types/testing-library__react": "^9.1.1",
