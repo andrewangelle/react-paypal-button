@@ -54,6 +54,7 @@ type PayPalButtonProps = {
   paypalOptions: PaypalOptions;
   buttonStyles: ButtonStylingOptions;
   amount: number;
+  subscriptionPlanId?: string;
   onApprove?: (data, authId) => void;
   onPaymentStart?: () => void;
   onPaymentSuccess?: (response: OnCaptureData) => void;
