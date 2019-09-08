@@ -25,10 +25,10 @@
     "skipLibCheck": true,
   },
   "exclude": [
-    "bin"
+    "bin",
+    "example"
   ],
   "include": [
-    "src",
-    "example"
+    "src"
   ]
 }

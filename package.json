@@ -1,22 +1,26 @@
 {
   "name": "react-paypal-button",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "a button component to implement PayPal&#39;s Express Checkout in React",
   "author": "andrewangelle",
   "email": "andrewangelle@gmail.com",
   "repository": "http://github.com/andrewangelle/react-paypal-button.git",
   "license": "MIT",
   "main": "bin/index.min.js",
-  "types": "bin/types/index.d.ts",
+  "types": "bin/types/src/index.d.ts",
   "scripts": {
     "build": "rm -rf bin && tsc --emitDeclarationOnly && webpack --config webpack.config.js",
     "start": "webpack-dev-server --config ./example/webpack.config.js --mode development --open --hot",
     "test": "jest --watchAll",
     "test:once": "jest",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "preversion": "npm run build",
+    "preversion": "rm -rf bin && tsc --emitDeclarationOnly && webpack --config webpack.config.js",
     "postversion": "git push --follow-tags origin master"
   },
+  "files": [
+    "bin",
+    "bin/types"
+  ],
   "keywords": [
     "react",
     "component"
