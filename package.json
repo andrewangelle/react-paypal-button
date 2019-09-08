@@ -17,7 +17,7 @@
     "test": "jest --watchAll",
     "test:once": "jest",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "preversion": "npm run build && git add -A bin",
+    "preversion": "npm run build",
     "postversion": "git push --follow-tags origin master"
   },
   "keywords": [
