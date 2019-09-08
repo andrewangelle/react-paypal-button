@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "rootDir": "src",
+    "rootDir": ".",
     "outDir": "bin/types",
     "module": "es6",
     "target": "es2015",
