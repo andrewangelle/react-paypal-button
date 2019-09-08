@@ -1,20 +1,56 @@
 import { useCallback } from 'react';
 
 import {
-  PayPalButtonProps,
   OnShippingChangeData,
   OnCancelData,
   OnCaptureData,
-  OnApproveData
+  OnApproveData,
+  PayPalButtonProps,
 } from '../types';
 import { authError, captureError } from './constants';
 
 export function usePaypalMethods (props: PayPalButtonProps){
 
+  const onError = useCallback((data) => {
+    if(props.onPaymentError){
+      props.onPaymentError(data.message)
+    }
+  }, []);
+
+  const createOrder = props.paypalOptions.vault ? null : 
+    useCallback((data: any, actions: any) => {
+      if(props.onPaymentStart){
+        props.onPaymentStart()
+      }
+
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: props.amount
+          }
+        }]
+      })
+    }, [ props.amount ]);
+
+  const createSubscription = !props.paypalOptions.vault ? null : 
+    useCallback((data: any, actions: any) => {
+      if(props.paypalOptions.vault && props.subsciptionPlanId){
+        return actions.subscription.create({
+          plan_id: props.subsciptionPlanId
+        })
+      }
+    }, []);
+
   const onApprove = useCallback((
     data: OnApproveData | OnCaptureData,
     actions: any
   ) => {
+    if(props.paypalOptions.vault && props.subsciptionPlanId){
+      if(props.onPaymentSuccess){
+        props.onPaymentSuccess(data as any)
+      }
+    }
+
     if(props.paypalOptions.intent === 'capture') {
       return actions.order.capture()
       .then((details: OnCaptureData) => {
@@ -30,7 +66,9 @@ export function usePaypalMethods (props: PayPalButtonProps){
           Original error message: ${e.message}
         ` )
       })
-    } else {
+    }
+
+    if(props.paypalOptions.intent === 'authorize'){
       actions.order.authorize()
       .then(auth => {
         const id = auth.purchase_units[0].payments.authorizations[0].id;
@@ -50,19 +88,7 @@ export function usePaypalMethods (props: PayPalButtonProps){
 
   }, [])
 
-  const createOrder = useCallback((data: any, actions: any) => {
-    if(props.onPaymentStart){
-      props.onPaymentStart()
-    }
 
-    return actions.order.create({
-      purchase_units: [{
-        amount: {
-          value: props.amount
-        }
-      }]
-    })
-  }, []);
 
   const payment = useCallback((data: any, actions: any) => {
     return actions.payment.create({
@@ -126,10 +152,12 @@ export function usePaypalMethods (props: PayPalButtonProps){
   }, []);
 
   return {
+    createOrder,
+    createSubscription,
     onApprove,
     onCancel,
+    onError,
     onShippingChange,
-    createOrder,
     payment
   }
 

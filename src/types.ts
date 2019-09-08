@@ -65,12 +65,12 @@ export type PaypalOptions = {
   clientId: string;
   merchantId?: string;
   currency?: number | string;
-  intent: 'capture' | 'authorize';
+  intent?: 'capture' | 'authorize';
   commit?: boolean;
   vault?: boolean;
   components?: string;
-  disableFunding?: Array<'card' | 'credit' | 'bancontact'>;
-  disableCard?: Array<'amex' | 'discover' | 'visa' | 'mastercard'>;
+  disableFunding?: Array<'card' | 'credit' | 'bancontact' | 'sepa' | 'eps' | 'giropay' | 'ideal' | 'mybank' | 'sofort'>;
+  disableCard?: Array<'amex' | 'discover' | 'visa' | 'mastercard' | 'jcb' | 'elo' | 'hiper'>;
   integrationDate?: string;
   locale?: string;
   buyerCountry?: string;
@@ -89,6 +89,7 @@ export type PayPalButtonProps = {
   paypalOptions: PaypalOptions;
   buttonStyles?: ButtonStylingOptions,
   amount: number | string;
+  subsciptionPlanId?: string;
   onApprove?: (data: OnApproveData, authId: string) => void;
   onPaymentStart?: () => void;
   onPaymentSuccess?: (response: OnCaptureData) => void;

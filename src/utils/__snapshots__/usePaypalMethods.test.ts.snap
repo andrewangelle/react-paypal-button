@@ -3,8 +3,10 @@
 exports[`usePaypalMethods returns an object with methods for paypal lib 1`] = `
 Object {
   "createOrder": [Function],
+  "createSubscription": null,
   "onApprove": [Function],
   "onCancel": [Function],
+  "onError": [Function],
   "onShippingChange": [Function],
   "payment": [Function],
 }

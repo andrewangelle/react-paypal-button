@@ -58,8 +58,8 @@ export function usePaypalScript(options: PaypalOptions): Props {
     script.addEventListener('load', onScriptLoad);
     script.addEventListener('error', onScriptError);
 
-    document.body.appendChild(script)
-
+    document.body.appendChild(script);
+    
     return () => {
       script.removeEventListener('load', onScriptLoad);
       script.removeEventListener('error', onScriptError);
