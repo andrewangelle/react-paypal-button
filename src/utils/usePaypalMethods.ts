@@ -34,9 +34,9 @@ export function usePaypalMethods (props: PayPalButtonProps){
 
   const createSubscription = !props.paypalOptions.vault ? null : 
     useCallback((data: any, actions: any) => {
-      if(props.paypalOptions.vault && props.subsciptionPlanId){
+      if(props.paypalOptions.vault && props.subscriptionPlanId){
         return actions.subscription.create({
-          plan_id: props.subsciptionPlanId
+          plan_id: props.subscriptionPlanId
         })
       }
     }, []);
@@ -45,7 +45,7 @@ export function usePaypalMethods (props: PayPalButtonProps){
     data: OnApproveData | OnCaptureData,
     actions: any
   ) => {
-    if(props.paypalOptions.vault && props.subsciptionPlanId){
+    if(props.paypalOptions.vault && props.subscriptionPlanId){
       if(props.onPaymentSuccess){
         props.onPaymentSuccess(data as any)
       }

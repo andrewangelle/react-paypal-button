@@ -29,7 +29,7 @@ export function SubscriptionExample() {
         paypalOptions={paypalOptions}
         buttonStyles={buttonStyles}
         amount={1.00}
-        subsciptionPlanId="P-2UF78835G6983425GLSM44MA" // valid subscription plan id required
+        subscriptionPlanId="P-2UF78835G6983425GLSM44MA" // valid subscription plan id required
         onPaymentSuccess={(data) => console.log('onPaymentSuccess', data)}
       />
     </div>
