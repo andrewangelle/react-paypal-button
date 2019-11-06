@@ -1,9 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const libraryName = 'reactGlide';
 const DotEnv = require('dotenv-webpack')
 
@@ -24,14 +21,6 @@ const config = {
         }
       }
     },
-    minimizer: [
-      new UglifyJsPlugin({
-        exclude: /\.html/,
-        parallel: true,
-        sourceMap: true
-      }),
-      new OptimizeCSSAssetsPlugin({})
-    ]
   },
   module: {
     rules: [
@@ -71,11 +60,6 @@ const config = {
     new HtmlWebpackPlugin({
       template: 'example/index.html',
       filename: 'index.html'
-    }),
-    new MiniCssExtractPlugin({
-      entry: 'src/index.css',
-      filename: libraryName + '.css',
-      chunkFilename: libraryName + '.[id].css'
     }),
     new DotEnv({
       path: '../.env'
