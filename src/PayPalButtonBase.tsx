@@ -14,7 +14,7 @@ function PayPalButtonBase(props: PayPalButtonProps) {
     if(hasWindow) {// check to support SSR
       if(!loading && done){
         if (paypalButtonElem) {
-          paypalButtonElem.parentElement?.removeChild(paypalButtonElem);
+          paypalButtonElem.parentElement.removeChild(paypalButtonElem);
         }
         try {
           window.paypal.Buttons(options).render('#paypal-button');
