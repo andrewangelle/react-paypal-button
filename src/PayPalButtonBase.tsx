@@ -9,9 +9,13 @@ function PayPalButtonBase(props: PayPalButtonProps) {
 
   useEffect(() => {
     const hasWindow = window !== undefined && window.paypal !== undefined;
+    const paypalButtonElem = document.querySelector('.paypal-buttons');
 
     if(hasWindow) {// check to support SSR
       if(!loading && done){
+        if (paypalButtonElem) {
+          paypalButtonElem.parentElement?.removeChild(paypalButtonElem);
+        }
         try {
           window.paypal.Buttons(options).render('#paypal-button');
         } catch (e){
@@ -20,7 +24,7 @@ function PayPalButtonBase(props: PayPalButtonProps) {
       }
 
     }
-  },[ loading, done ])
+  },[ loading, done, options ])
 
   return <div id="paypal-button" />
 }
