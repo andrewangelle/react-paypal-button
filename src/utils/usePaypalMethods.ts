@@ -27,7 +27,8 @@ export function usePaypalMethods (props: PayPalButtonProps){
         purchase_units: [{
           amount: {
             value: props.amount
-          }
+            },
+          description: props.description
         }]
       })
     }, [ props.amount ]);
@@ -97,7 +98,8 @@ export function usePaypalMethods (props: PayPalButtonProps){
           amount: {
             total: props.amount,
             currency: props.paypalOptions.currency,
-          }
+          },
+          description: props.description
         }
       ]
     })
