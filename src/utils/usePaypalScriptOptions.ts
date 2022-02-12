@@ -2,7 +2,7 @@ import { PayPalButtonProps } from '../types';
 import { usePaypalMethods } from '.';
 
 export function usePaypalScriptOptions(props: PayPalButtonProps) {
-  const { buttonStyles: style, amount } = props;
+  const { buttonStyles: style, amount, description } = props;
   const {
     createOrder, 
     createSubscription, 
@@ -16,6 +16,7 @@ export function usePaypalScriptOptions(props: PayPalButtonProps) {
   return {
     style,
     amount,
+    description,
     createOrder,
     createSubscription,
     onApprove,
