@@ -89,6 +89,7 @@ export type PayPalButtonProps = {
   paypalOptions: PaypalOptions;
   buttonStyles?: ButtonStylingOptions,
   amount: number | string;
+  description?: string;
   subscriptionPlanId?: string;
   onApprove?: (data: OnApproveData, authId: string) => void;
   onPaymentStart?: () => void;
