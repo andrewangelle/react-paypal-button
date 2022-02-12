@@ -1,11 +1,18 @@
 # React-Paypal-Button
 
+This repository is DEPRECATED. Please see [PayPal's supported solution](https://www.npmjs.com/package/@paypal/react-paypal-js)
+
+
+
+
+
 [![npm version](https://badge.fury.io/js/react-paypal-button.svg)](https://badge.fury.io/js/react-paypal-button)
 [![CircleCI](https://circleci.com/gh/andrewangelle/react-paypal-button.svg?style=svg)](https://circleci.com/gh/andrewangelle/react-paypal-button)
 
 <img src='paypalImage.png' width="400px" />
 
 A button component to implement PayPal&#39;s Express Checkout in React
+
 
 ## Prerequisites
 
